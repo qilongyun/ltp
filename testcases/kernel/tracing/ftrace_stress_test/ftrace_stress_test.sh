@@ -42,7 +42,11 @@ save_old_setting()
 
 	old_trace_options=( `cat trace_options` )
 	old_tracing_on=`cat tracing_on`
-	old_tracing_enabled=`cat tracing_enabled`
+	
+	if [ -e tracing_enabled ]; then
+       old_tracing_enabled=`cat tracing_enabled`
+	fi
+	
 	old_buffer_size=`cat buffer_size_kb`
 
 	if [ -e stack_max_size ]; then
@@ -87,7 +91,10 @@ restore_old_setting()
 
 	echo $old_buffer_size > buffer_size_kb
 	echo $old_tracing_on > tracing_on
-	echo $old_tracing_enabled > tracing_enabled
+	
+	if [ -e tracing_enabled ]; then
+	   echo $old_tracing_enabled > tracing_enabled
+    fi
 
 	for option in $old_trace_options
 	do
