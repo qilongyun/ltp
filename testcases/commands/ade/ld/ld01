@@ -50,7 +50,8 @@ then
 	if [ $? -eq 0 ]; then
 		export LDEMULATION="elf_i386"
 	fi
-elif uname -a | grep -iq powerpc
+#modify by qilongyun
+elif uname -a | grep -iq ppc
 then
 	file $TCdat/f1.obj | grep 64-bit >/dev/null 2>&1
 	if [ $? -eq 0 ]; then
@@ -99,11 +100,11 @@ $CC: fatal error: No input files
 compilation terminated.
 EOF
 
-diff -iw $TCtmp/errmsg.out $TCtmp/errmsg.exp
+diff -iw $TCtmp/errmsg.out $TCtmp/errmsg.exp >/dev/null
 if [ $? -eq 0 ]; then
 	echo  "-)"
 else
-	diff -iw $TCtmp/errmsg.out $TCtmp/errmsg.exp2
+	diff -iw $TCtmp/errmsg.out $TCtmp/errmsg.exp2 >/dev/null
 	if [ $? -eq 0 ]; then
 		echo "-)"
 	else
@@ -154,11 +155,11 @@ $CC: fatal error: No input files
 compilation terminated.
 EOF
 
-diff -iw  $TCtmp/errmsg.out $TCtmp/errmsg.exp
+diff -iw  $TCtmp/errmsg.out $TCtmp/errmsg.exp >/dev/null
 if [ $? -eq 0 ]; then
 	echo  "-)"
 else
-	diff -iw  $TCtmp/errmsg.out $TCtmp/errmsg.exp2
+	diff -iw  $TCtmp/errmsg.out $TCtmp/errmsg.exp2  >/dev/null
 	if [ $? -eq 0 ]; then
 		echo "-)"
 	else
