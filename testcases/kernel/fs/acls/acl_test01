@@ -105,7 +105,7 @@ do_cleanup() {
 	rm -f $FILE_ACL > /dev/null 2>&1
 	rm -f $FILE_ACL_LINK > /dev/null 2>&1
 	mount | grep "$TMP/tacl/mount-ext3" && umount -d $TMP/tacl/mount-ext3
-	[ "x$LOOP_DEV" != x ] && losetup -d $LOOP_DEV
+	[ "$LOOP_DEV" != "$(losetup -f)" ] && losetup -d $LOOP_DEV
 	rm -rf $TMP/tacl
 
 	# We set it back to Enforcing.
