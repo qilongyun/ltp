@@ -43,7 +43,7 @@ do_clean()
 		for i in `cat /var/run/hotplug4_$$.pid`; do
 			kill_pid $i
 		done
-		rm /var/run/hotplug4_$$.pid
+		rm  -rf /var/run/hotplug4_$$.pid
 	fi
 
 	# Restore CPU states
@@ -103,7 +103,7 @@ until [ $LOOP_COUNT -gt $HOTPLUG03_LOOPS ]; do
 	# so we can kill them later.
 	number_of_procs=$((cpus_num*2))
 	until [ $number_of_procs -eq 0 ]; do
-		cpuhotplug_do_spin_loop > /dev/null 2>&1 &
+		./cpuhotplug_do_spin_loop > /dev/null 2>&1 &
 		echo $! >> /var/run/hotplug4_$$.pid
 		number_of_procs=$((number_of_procs-1))
 	done

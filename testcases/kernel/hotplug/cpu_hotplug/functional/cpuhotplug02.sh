@@ -78,7 +78,7 @@ fi
 TST_CLEANUP=do_clean
 
 # Start up a process that just uses CPU cycles
-cpuhotplug_do_spin_loop > /dev/null&
+./cpuhotplug_do_spin_loop > /dev/null&
 SPIN_LOOP_PID=$!
 
 sleep 5

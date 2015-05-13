@@ -138,7 +138,7 @@ cpu_states=$(get_all_cpu_states)
 CPU_COUNT=0
 
 # Start up a process that writes to disk; keep track of its PID
-cpuhotplug_do_disk_write_loop > /dev/null 2>&1 &
+./cpuhotplug_do_disk_write_loop > /dev/null 2>&1 &
 WRL_ID=$!
 
 until [ $LOOP_COUNT -gt $HOTPLUG01_LOOPS ]
@@ -182,7 +182,7 @@ do
 	# Print out a report showing the changes in IRQs
 	echo
 	echo
-	cpuhotplug_report_proc_interrupts "$IRQ_START" "$IRQ_END"
+	./cpuhotplug_report_proc_interrupts "$IRQ_START" "$IRQ_END"
 	echo
 
 	sleep $TM_DLY

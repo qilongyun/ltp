@@ -82,7 +82,7 @@ fi
 
 TST_CLEANUP=do_clean
 
-cpuhotplug_do_kcompile_loop $KERNEL_DIR > /dev/null 2>&1 &
+./cpuhotplug_do_kcompile_loop $KERNEL_DIR > /dev/null 2>&1 &
 KCOMPILE_LOOP_PID=$!
 
 tst_resm TINFO "initial CPU affinity for kernel compile is: \

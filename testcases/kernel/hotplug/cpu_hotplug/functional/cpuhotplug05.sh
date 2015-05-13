@@ -110,7 +110,7 @@ until [ $LOOP_COUNT -gt $HOTPLUG05_LOOPS ]; do
 		tst_brkm TBROK "CPU${CPU_TO_TEST} cannot be onlined line"
 	fi
 
-	sleep 1
+	sleep 3
 	time=$(date +%T)
 	sleep .5
 
@@ -130,6 +130,7 @@ until [ $LOOP_COUNT -gt $HOTPLUG05_LOOPS ]; do
 
 done
 
+online_cpu ${CPU_TO_TEST}
 tst_resm TPASS "CPU was found after turned on."
 
 tst_exit
