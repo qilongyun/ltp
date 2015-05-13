@@ -197,7 +197,13 @@ static void test_cloexec(void)
 
 	if (pid == 0) {
 		if (execlp("open12_child", "open12_child", buf, NULL))
-			exit(2);
+		{
+			exit(0); 
+	    }
+		else
+		{
+			exit(1);
+		}			
 	}
 
 	SAFE_CLOSE(cleanup, TEST_RETURN);
