@@ -16,8 +16,18 @@
 MAX_LOOP=1500
 count=0
 
+if [ ! -e "$TRACING_PATH"/tracing_enabled ]; then
+        should_skip=1
+else
+        should_skip=0
+fi
+
 for ((; ;))
 {
+    if [ $should_skip -eq 1 ]; then
+                sleep 2
+                continue
+    fi
 	count=$(( $count + 1 ))
 
 	for ((i = 0; i < $MAX_LOOP; i++))
