@@ -36,7 +36,10 @@ LDD=${LDD:=ldd}
 TCID=ldd01
 TST_TOTAL=1
 
-. test.sh
+#. test.sh
+tmppath="$PWD"
+tmppath=${tmppath%/*}
+LTP_DATAROOT="${tmppath}/data/$TCID"
 
 do_test()
 {
