@@ -31,6 +31,7 @@ for ((; ;))
 	new_size=1
 	for ((i = 0; i < $LOOP; i++))
 	{
+        sleep 5
 		echo $new_size > "$TRACING_PATH"/buffer_size_kb
 		new_size=$(( $new_size + $step ))
 	}
@@ -38,6 +39,7 @@ for ((; ;))
 	for ((i = 0; i < $LOOP; i++))
 	{
 		new_size=$(( $new_size - $step ))
+        sleep 5
 		echo $new_size > "$TRACING_PATH"/buffer_size_kb
 	}
 
