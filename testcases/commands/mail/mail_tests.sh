@@ -43,6 +43,8 @@
 export TST_TOTAL=5
 
 LTPTMP=${TMPBASE:-/tmp}
+export TCID=mail_tests
+. test.sh
 
 if [ -z "$LTPBIN" -a -z "$LTPROOT" ]; then
 	LTPBIN=./
