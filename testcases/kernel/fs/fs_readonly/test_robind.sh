@@ -108,10 +108,10 @@ setup()
 {
 	tst_require_root
 
-	if [ -z "$LTP_BIG_DEV" ];then
+	if [ -z "$LTP_DEV" ];then
 		tst_brkm TCONF "tests need a big block device(>=500MB)"
 	else
-		device=$LTP_BIG_DEV
+		device=$LTP_DEV
 	fi
 
 	tst_tmpdir
@@ -124,10 +124,11 @@ setup()
 	done
 
 	# populating the default FS as ext3, if FS is not given
-	if [ -z "$*" ]; then
+	# runtltp use -Z xfs
+	if [ -z "$LTP_BIG_DEV_FS_TYPE" ]; then
 		FSTYPES="ext3"
 	else
-		FSTYPES="$*"
+		FSTYPES="$LTP_BIG_DEV_FS_TYPE"
 	fi
 }
 
