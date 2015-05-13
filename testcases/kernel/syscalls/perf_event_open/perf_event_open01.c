@@ -154,8 +154,9 @@ static void verify(struct test_case_t *tc)
 			         "perf_event_open for %s not supported",
 			         tc->config_name);
 		} else {
-			tst_brkm(TFAIL | TTERRNO, cleanup,
-				 "perf_event_open failed unexpectedly");
+			tst_resm(TFAIL,
+                     "perf_event_open for %s not supported",
+                      tc->config_name);
 		}
 		return;
 	}
