@@ -12,23 +12,40 @@ nptl
 pty
 containers
 fs_bind
-controllers
+#controllers          need to study 
 filecaps
 cap_bounds
 fcntl-locktests
 connectors
 admin_tools
 timers
-power_management_tests
-numa
-hugetlb
+power_management_tests_exclusive
+#numa               bug#60 system is not support
+#hugetlb            bug#43 crash system
 commands
 hyperthreading
 kernel_misc
 modules
 fs_ext4
 pipes
-dma_thread_diotest
+#dma_thread_diotest     bug#51
 cpuacct
-can
+#can                    current version is not support
 cpuhotplug
+#new add by qilongyun
+crashme
+fs_readonly
+ima
+ltplite
+perfcounters
+quickhit
+sctp
+securebits
+tracing
+tirpc_tests
+syscalls-ipc
+#smack                 bug#58 kernel is not support
+#tpm_tools             bug#59 kernel is not support
+#io_cd
+#io_floppy
+#nw_under_ns           need to study
