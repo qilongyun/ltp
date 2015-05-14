@@ -154,7 +154,7 @@ static void testfunc_protexec(void)
 	} else {
 		int (*func)(void) = p;
 		if (sigsetjmp(env, 1) == 0)
-			(*func)();
+			(*func)(p);
 
 		switch (sig_caught) {
 		case SIGSEGV:
