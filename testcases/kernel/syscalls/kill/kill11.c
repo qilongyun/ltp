@@ -193,13 +193,15 @@ void do_child(void)
 }
 
 /* 1024 GNU blocks */
-#define MIN_RLIMIT_CORE (1024 * 1024)
+#define MIN_RLIMIT_CORE (1024 * 512)
 
 void setup(void)
 {
 	struct rlimit rlim;
 
 	SAFE_GETRLIMIT(NULL, RLIMIT_CORE, &rlim);
+
+	tst_resm(TINFO, "rlim.rlim_cur = %d", rlim.rlim_cur);
 
 	if (rlim.rlim_cur < MIN_RLIMIT_CORE) {
 		tst_resm(TINFO, "Adjusting RLIMIT_CORE to %i", MIN_RLIMIT_CORE);
