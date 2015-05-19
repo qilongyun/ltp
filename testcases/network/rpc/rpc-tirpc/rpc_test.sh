@@ -27,6 +27,10 @@
 #
 # If the RHOST variable is not set, then the rpc server instance (if needed)
 # is started on the local host, and the client program is passed `hostname`.
+#set -xv
+
+
+TESTPATH="$PWD"
 
 SERVER_HOST=${RHOST:-`hostname`}
 SERVER=""
@@ -75,7 +79,7 @@ usage()
 
 while getopts s:c:e:h arg; do
 	case $arg in
-		s) SERVER="$LTPROOT/testcases/bin/$OPTARG" ;;
+		s) SERVER="$TESTPATH/$OPTARG" ;;
 		c) CLIENT="$OPTARG" ;;
 		e) CLIENT_EXTRA_OPTS="$OPTARG" ;;
 		h) usage ;;
@@ -84,9 +88,9 @@ done
 
 if [ ! -z "$SERVER" ]; then
 	if `echo "$SERVER" | grep -e '^tirpc'`; then
-		CLEANER="$LTPROOT/testcases/bin/tirpc_cleaner"
+		CLEANER="$TESTPATH/tirpc_cleaner"
 	else
-		CLEANER="$LTPROOT/testcases/bin/rpc_cleaner"
+		CLEANER="$TESTPATH/rpc_cleaner"
 	fi
 fi
 
@@ -107,7 +111,7 @@ if [ ! -z "$SERVER" ]; then
 	sleep "$SERVER_STARTUP_SLEEP"
 fi
 
-"$CLIENT" "$SERVER_HOST" "$PROGNUMNOSVC" $CLIENT_EXTRA_OPTS
+$TESTPATH/"$CLIENT" "$SERVER_HOST" "$PROGNUMNOSVC" $CLIENT_EXTRA_OPTS
 ret=$?
 
 if [ "$ret" -eq 0 ]; then
