@@ -2,3 +2,6 @@ tcp_cmds
 multicast
 rpc
 nfs
+rpc_tests
+tcp_cmds_expect
+tcp_cmds_noexpect
