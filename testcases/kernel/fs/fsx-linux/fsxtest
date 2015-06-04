@@ -27,9 +27,11 @@
 # $3 number of operations to perform
 
 #Uncomment line below for debugging
-#set -x
+#set -xv
 if [ $2 = "jfs" ]; then
   mkfs -t $2 -q $1
+elif [ $2 = "xfs" ]; then
+  mkfs  -t $2 -f $1
 else
   mkfs -t $2 $1
 fi
