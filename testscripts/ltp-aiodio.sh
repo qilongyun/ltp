@@ -92,7 +92,7 @@ if [ -n "$allfs"  ]; then
   echo "testing ALL supported filesystems"
   ext2="1"
   ext3="1"
-  jfs="1"
+  jfs="0"
   xfs="1"
   echo "test run = $run0"
 fi
