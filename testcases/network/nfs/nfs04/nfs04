@@ -37,7 +37,7 @@
 #      -Written
 #
 #***********************************************************************
-
+set -xv
 #Uncomment line below for debug output.
 #trace_logic=${trace_logic:-"set -x"}
 
@@ -71,12 +71,18 @@ $trace_logic
 
     PID=$$
 
-    VERSION=${VERSION:=3}
+    VERSION=${VERSION:=`sh getnfsversion.sh`}
     RHOST=${RHOST:=`hostname`}
     FILESIZE=${FILESIZE:=10}
     SOCKET_TYPE=${SOCKET_TYPE:=udp}
     TESTDIR=${TESTDIR:=/tmp/$TC$PID.testdir}
-    NFS_TYPE=${NFS_TYPE:=nfs}
+
+    if [ `echo "$VERSION == 4.0"|bc` = 1 ]
+       then NFS_TYPE=${NFS_TYPE:=nfs4};
+    else
+       NFS_TYPE=${NFS_TYPE:=nfs};
+    fi
+
     LOOPS=${LOOPS:=1}
     export TST_COUNT=$LOOPS
 

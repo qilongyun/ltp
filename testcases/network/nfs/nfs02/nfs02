@@ -53,11 +53,15 @@ export TST_COUNT=1
 PID=$$
 
 RHOST=${RHOST:=`hostname`}
-VERSION=${VERSION:=3}
+VERSION=${VERSION:=`sh getnfsversion.sh`}
 SOCKET_TYPE=${SOCKET_TYPE:=udp}
 TESTDIR=${TESTDIR:=/tmp/$TC$PID.testdir}
 CLEANUP=${CLEANUP:="ON"}
-NFS_TYPE=${NFS_TYPE:=nfs}
+if [ `echo "$VERSION == 4.0"|bc` = 1 ]
+  	then  NFS_TYPE=${NFS_TYPE:=nfs4};
+else
+    NFS_TYPE=${NFS_TYPE:=nfs};
+fi
 
 #---------------------------------------------------------------------#
 # FUNCTION: do_setup

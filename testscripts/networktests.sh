@@ -1,6 +1,7 @@
 #!/bin/sh
 # This will run all the network tests, with the status logged in /tmp/netpan.log
 
+export PATH=$PATH:/opt/ltp/testcases/bin
 cd $(dirname $0)
 . ./network.sh
 

@@ -75,14 +75,17 @@ $trace_logic
 
     PID=$$
 
-    VERSION=${VERSION:=3}
-    RHOST=${RHOST:=`hostname`}
+    VERSION=${VERSION:=`sh getnfsversion.sh`}
+	RHOST=${RHOST:=`hostname`}
     NFILES=${NFILES:=1000}
-    SOCKET_TYPE=${SOCKET_TYPE:=udp}
+    SOCKET_TYPE=${SOCKET_TYPE:=tcp}
     TESTDIR=${TESTDIR:=/tmp/$TC$PID.testdir}
-    NFS_TYPE=${NFS_TYPE:=nfs}
-
-    echo ""
+    if [ `echo "$VERSION == 4.0"|bc` = 1 ]
+    	then  NFS_TYPE=${NFS_TYPE:=nfs4};
+    else
+		NFS_TYPE=${NFS_TYPE:=nfs};
+    fi
+    
     echo "Test Options:"
     echo " VERSION: $VERSION"
     echo " RHOST: $RHOST"
