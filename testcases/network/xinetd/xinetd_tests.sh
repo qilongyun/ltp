@@ -64,11 +64,7 @@ init()
     export TCID="xinetd"
     export TST_COUNT=0
     . daemonlib.sh
-
-    if [ -f "/usr/lib/systemd/system/telnet.socket" ]; then
-        tst_brkm TCONF NULL "xinetd doesn't manage telnet"
-        exit $?
-    fi
+	
 
     # Inititalize cleanup function.
     trap "cleanup" 0
@@ -291,7 +287,7 @@ test01()
     sleep 1s
 
     # restart xinetd to re-start the services
-    restart_daemon xinetd > $LTPTMP/tst_xinetd.out 2>&1
+    restart_daemon xinetd > $LTPTMP/tst_xinetd.out 2>&1	
     RC=$?
     if [ $RC -ne 0 ]
     then

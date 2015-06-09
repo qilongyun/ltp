@@ -186,6 +186,7 @@ test04()
 		return
 	fi
 
+	systemctl restart network.service
 	tst_resm TPASS "'ip neigh' command successfully tested"
 }
 
