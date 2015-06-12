@@ -31,9 +31,11 @@ setup()
 	fi
 
 	if [ -z $PASSWD ]; then
-		tst_brkm TCONF "Please set PASSWD for $RUSER."
+		PASSWD=123456
 	fi
-
+	
+	RHOST=${RHOST:-$(hostname)}
+	
 	if [ -z $RHOST ]; then
 		tst_brkm TCONF "Please set RHOST."
 	fi
@@ -41,8 +43,14 @@ setup()
 	if [ -z $LOOPCOUNT ]; then
 		LOOPCOUNT=25
 	fi
+	
+	systemctl restart telnet.socket
 }
 
+cleanup()
+{
+	systemctl stop telnet.socket
+}
 do_test()
 {
 	tst_resm TINFO "Starting"
@@ -90,5 +98,5 @@ if [ $? -ne 0 ]; then
 else
 	tst_resm TPASS "Test $TCID succeeded."
 fi
-
+cleanup
 tst_exit

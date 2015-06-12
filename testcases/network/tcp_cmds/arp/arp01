@@ -41,6 +41,10 @@
 #
 #-----------------------------------------------------------------------
 
+TST_TOTAL=1
+TCID="arp01"
+
+. test_net.sh
 do_setup()
 {
 
@@ -49,8 +53,7 @@ do_setup()
 
     tst_setup
     exists arp grep hostname ping sleep whoami
-
-    RHOST=${RHOST:-$(hostname)}
+	RHOST=$(tst_ipaddr rhost)
     SLEEPTIME=${SLEEPTIME:-1}
     LUSER=$(whoami)
 

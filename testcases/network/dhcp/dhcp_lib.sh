@@ -55,10 +55,11 @@ init()
 
 	stop_dhcp || tst_brkm TBROK "Failed to stop dhcp server"
 
-	dhclient_lease="/var/lib/dhclient/dhclient${TST_IPV6}.leases"
+	dhclient_lease="/var/lib/dhcpd/dhcpd${TST_IPV6}.leases"
 	if [ -f $dhclient_lease ]; then
-		tst_resm TINFO "backup dhclient${TST_IPV6}.leases"
-		mv $dhclient_lease .
+		tst_resm TINFO "backup dhcpd${TST_IPV6}.leases"
+		mv $dhclient_lease $dhclient_lease.ltpback
+		touch $dhclient_lease			    
 	fi
 
 	tst_resm TINFO "add $ip_addr to $iface0"
@@ -71,13 +72,11 @@ cleanup()
 	stop_dhcp
 
 	pkill -f "dhclient -$ipv $iface1"
-
+   	
 	cleanup_dhcp
-
+   
 	# restore dhclient leases
-	[ $dhclient_lease ] && rm -f $dhclient_lease
-	[ -f "dhclient${TST_IPV6}.leases" ] && \
-		mv dhclient${TST_IPV6}.leases $dhclient_lease
+	mv $dhclient_lease.ltpback  $dhclient_lease	
 
 	[ $veth_added ] && ip li del $iface0
 

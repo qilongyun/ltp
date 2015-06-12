@@ -149,7 +149,7 @@ int main(int argc, char *argv[])
 		offset = NULL;
 		errno = 0;
 		do {		/* send file parts until EOF */
-			if ((rc = sendfile(as, fd, offset, flen)) != flen) {
+				if ((rc = sendfile(as, fd, offset, flen)) <0) {
 				if ((errno != EWOULDBLOCK) && (errno != EAGAIN)) {
 					tst_resm(TBROK,
 						 "sendfile error = %d, rc = %d\n",

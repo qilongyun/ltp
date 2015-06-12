@@ -31,12 +31,10 @@ setup()
 	fi
 
 	if [ -z $PASSWD ]; then
-		tst_brkm TCONF "Please set PASSWD for $RUSER."
+		PASSWD=123456		
 	fi
 
-	if [ -z $RHOST ]; then
-		tst_brkm TCONF "Please set RHOST."
-	fi
+	RHOST=${RHOST:-$(hostname)}	
 
 	if [ -z $LOOPCOUNT ]; then
 		LOOPCOUNT=25

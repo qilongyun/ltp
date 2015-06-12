@@ -51,8 +51,8 @@ do_setup()
 
     TC=ftp
     TCtmp=${TCtmp:-$LTPROOT/$TC${EXEC_SUFFIX}$$}
-    TCdat=${TCdat:-$LTPROOT/datafiles}
-    SLEEPTIME=${SLEEPTIME:-0}
+	TCdat=${TCdat:-$LTPROOT/testcases/bin/datafiles}	
+	SLEEPTIME=${SLEEPTIME:-0}
     ASCII_FILES=${ASCII_FILES:-"ascii.sm ascii.med ascii.lg ascii.jmb"}
     BIN_FILES=${BIN_FILES:-"bin.sm bin.med bin.lg bin.jmb"}
 
@@ -96,7 +96,7 @@ do_test()
                     {
                         echo user $RUSER $PASSWD
                         echo lcd $TCtmp
-                        echo $i
+                        echo $i                        
                         echo cd $TCdat
                         echo $a $j
                         echo quit
@@ -106,7 +106,7 @@ do_test()
                     rm -f $TCtmp/$j
                 else
                     {
-                        echo user $RUSER $PASSWD
+                        echo user $RUSER $PASSWD                        
                         echo lcd $TCdat
                         echo $i
                         echo cd $TCtmp

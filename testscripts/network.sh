@@ -29,11 +29,11 @@ export LHOST_HWADDRS=${LHOST_HWADDRS:-"$(tst_get_hwaddrs lhost)"}
 export RHOST_HWADDRS=${RHOST_HWADDRS:-"$(tst_get_hwaddrs rhost)"}
 
 # Set first three octets of the network address, default is '10.0.0'
-export IPV4_NETWORK=${IPV4_NETWORK:-"10.0.0"}
+export IPV4_NETWORK=${IPV4_NETWORK:-"192.168.1"}
 # Set local host last octet, default is '2'
-export LHOST_IPV4_HOST=${LHOST_IPV4_HOST:-"2"}
+export LHOST_IPV4_HOST=${LHOST_IPV4_HOST:-"33"}
 # Set remote host last octet, default is '1'
-export RHOST_IPV4_HOST=${RHOST_IPV4_HOST:-"1"}
+export RHOST_IPV4_HOST=${RHOST_IPV4_HOST:-"200"}
 # Set the reverse of IPV4_NETWORK
 export IPV4_NET_REV=${IPV4_NET_REV:-"0.0.10"}
 # Set first three octets of the network address, default is 'fd00:1:1:1'

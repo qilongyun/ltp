@@ -88,7 +88,7 @@ if [ $(($CMD&$CMD_SCTP)) -ne 0 ]; then
     cat  ${LTPROOT}/runtest/sctp >> $CMDFILE
 fi
 if [ $(($CMD&$CMD_TCPCMDS)) -ne 0 ]; then
-    cat  ${LTPROOT}/runtest/tcp_cmds >> $CMDFILE
+    cat  ${LTPROOT}/runtest/tcp_cmds >> $CMDFILE	
 fi
 if [ $(($CMD&$CMD_TCPCMDS_ADD)) -ne 0 ]; then
     cat  ${LTPROOT}/runtest/tcp_cmds_addition >> $CMDFILE
@@ -103,11 +103,10 @@ if [ ${VERBOSE} = "yes" ]; then
     cat $CMDFILE
     ${LTPROOT}/ver_linux
     echo ""
-    echo ${LTPROOT}/bin/ltp-pan -e -l /tmp/netpan.log -S -a ltpnet -n ltpnet -f $CMDFILE
+    echo ${LTPROOT}/bin/ltp-pan -e -p -l /opt/ltp/results/networktest.log -S -a ltpnet -n ltpnet -f $CMDFILE -o /opt/ltp/output/networktest.output 
 fi
 
-${LTPROOT}/bin/ltp-pan -e -l /tmp/netpan.log -S -a ltpnet -n ltpnet -f $CMDFILE
-
+${LTPROOT}/bin/ltp-pan -e -p -l /opt/ltp/results/networktest.log -S -a ltpnet -n ltpnet -f $CMDFILE  -o /opt/ltp/output/networktest.output 
 if [ $? -eq "0" ]; then
   echo ltp-pan reported PASS
 else

@@ -49,7 +49,7 @@ start_dhcpd()
 	dhcpd -$ipv $iface0 > tst_dhcpd.err 2>&1
 	if [ $? -ne 0 ]; then
 		cat tst_dhcpd.err
-		tst_brkm TBROK "Failed to start dhcpd"
+		tst_brkm TBROK "Failed to start dhcpd" 
 	fi
 
 }
@@ -57,12 +57,12 @@ start_dhcpd()
 start_dhcp()
 {
 	cat > tst_dhcpd.conf <<-EOF
-	ddns-update-style none;
+	ddns-update-style interim;
 	update-static-leases off;
 	subnet 10.1.1.0 netmask 255.255.255.0 {
 		range 10.1.1.100 10.1.1.100;
-		default-lease-time 60;
-		max-lease-time 60;
+		default-lease-time 1;
+		max-lease-time 5;
 	}
 	EOF
 	setup_dhcpd_conf
@@ -72,12 +72,12 @@ start_dhcp()
 start_dhcp6()
 {
 	cat > tst_dhcpd.conf <<-EOF
-	ddns-update-style none;
+	ddns-update-style interim;
 	update-static-leases off;
 	subnet6 fd00:1:1:2::/64 {
 		range6 fd00:1:1:2::100 fd00:1:1:2::100;
-		default-lease-time 60;
-		max-lease-time 60;
+		default-lease-time 1;
+		max-lease-time 5;
 	}
 	EOF
 	setup_dhcpd_conf
