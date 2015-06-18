@@ -35,6 +35,9 @@ TST_TOTAL=2
 
 do_setup()
 {
+	Tcbin=$LTPROOT/testcases/bin
+	RHOST=${RHOST:-$(hostname)}	
+	LocalIP=$(ping -c1 $(hostname)|awk '{print $3}'|sed -n 1p |sed 's/(//g'|sed 's/)//g')
 	tst_check_cmds netstat pgrep
 
 	OCTET=$(ps -ewf | grep [m]c_commo | wc -l | awk '{print $1}')
@@ -47,12 +50,12 @@ do_test()
 {
 	# Run setsockopt/getsockopt test
 	# Start up the recv on local host
-	tst_resm TINFO "Start mc_recv $GROUP_ADDR $(tst_ipaddr) $PORT"
-	mc_recv $GROUP_ADDR $(tst_ipaddr) $PORT >> $OUTFILE &
+	tst_resm TINFO "Start mc_recv $GROUP_ADDR $LocalIP $PORT"
+	$Tcbin/mc_recv $GROUP_ADDR $LocalIP $PORT >> $OUTFILE &
 	SERVER_PID=$!
 	sleep 5
 	pgrep -x mc_recv > /dev/null || \
-		tst_brkm TFAIL "Could NOT start mc_recv on $(tst_ipaddr)"
+		tst_brkm TFAIL "Could NOT start mc_recv on $LocalIP"
 
 	grep -q "cannot join group" $OUTFILE && \
 		tst_brkm TFAIL "Membership NOT set"
@@ -61,17 +64,17 @@ do_test()
 		tst_brkm TFAIL "membership not set for $GROUP_ADDR"
 
 	tst_resm TINFO "Start on $RHOST mc_send $GROUP_ADDR" \
-	               "$(tst_ipaddr rhost) $PORT $TTL"
+	               "$LocalIP $PORT $TTL"
 
-	tst_rhost_run -b -c "mc_send $GROUP_ADDR $(tst_ipaddr rhost) $PORT $TTL"
+	tst_rhost_run -s -c "$Tcbin/mc_send $GROUP_ADDR $LocalIP $PORT $TTL"
+
 	sleep 10
-	tst_rhost_run -s -c "pgrep -x mc_send > /dev/null"
 
 	tst_resm TINFO "Waiting for 100 sec.! Do not interrupt."
-	sleep 100  #wait until datagrams are received in $STATUS
+	sleep 10  #wait until datagrams are received in $STATUS
 
 	#test if datagrams has been sent
-	grep -q "$(tst_ipaddr rhost) [0-9] [0-9]" $OUTFILE || \
+	grep -q "$LocalIP [0-9] [0-9]" $OUTFILE || \
 		tst_brkm TFAIL "NO Datagrams received from $RHOST"
 
 	tst_resm TPASS "Test Successful"

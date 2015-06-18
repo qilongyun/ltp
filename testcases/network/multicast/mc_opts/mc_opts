@@ -34,13 +34,15 @@ TST_TOTAL=1
 
 . test_net.sh
 
+ipaddr=$(ping -c1 $(hostname)|awk '{print $3}'|sed -n 1p |sed 's/(//g'|sed 's/)//g')
+
 COUNT=1
 while [ $COUNT -le 10 ]; do
 	# Run setsockopt/getsockopt test
-	tst_resm TINFO "Running $EXECUTABLES on $(tst_ipaddr)"
+	tst_resm TINFO "Running $EXECUTABLES on $ipaddr"
 	for i in $EXECUTABLES; do
-		$i $(tst_ipaddr) > /dev/null || \
-			tst_brkm TFAIL "$i $(tst_ipaddr) failed"
+		$i $ipaddr > /dev/null || \
+			tst_brkm TFAIL "$i $ipaddr failed"
 	done
 
 	tst_resm TINFO "Running ping with bad values"

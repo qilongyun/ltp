@@ -43,6 +43,8 @@ do_setup()
 	TCdat=${TCdat:-$LTPROOT/testcases/bin/datafiles}
 	Tcbin=$LTPROOT/testcases/bin
 	RHOST=${RHOST:-$(hostname)}
+	LocalIP4=$(ping -c1 $(hostname)|awk '{print $3}'|sed -n 1p |sed 's/(//g'|sed 's/)//g')
+	LocalIP6=$(ping6 -c1 -n $(hostname)| sed -n 2p |awk '{print $4}' |sed 's/.$//')
 	CLIENT="testsf_c${TST_IPV6}"
 	SERVER="testsf_s${TST_IPV6}"
 
@@ -58,10 +60,16 @@ do_test()
 	tst_resm TINFO "Doing $0."
 
 	local ipv="ipv${TST_IPV6:-"4"}"
-	local ipaddr=$(tst_ipaddr lhost)
+	local ipaddr=
 	local port=$(tst_rhost_run -s -c "$Tcbin/tst_get_unused_port $ipv stream")
 	[ -z "$port" ] && tst_brkm TBROK "failed to get unused port"
-
+	
+	if [ $TST_IPV6 -eq  6 ]; then
+	    ipaddr=$LocalIP6
+	else
+	    ipaddr=$LocalIP4
+	fi
+	
 	tst_rhost_run -s -b -c "$Tcbin/$SERVER $ipaddr $port"
 	server_started=1
 	sleep 10

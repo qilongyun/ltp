@@ -58,7 +58,7 @@ do_setup()
 
     RHOST=${RHOST:-`hostname`}
     RUSER=${RUSER:-root}
-    PASSWD=${PASSWD:-.pasroot}
+    PASSWD=${PASSWD:-123456}
 
     tst_setup
 

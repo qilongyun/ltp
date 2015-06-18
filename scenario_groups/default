@@ -33,7 +33,6 @@ cpuacct
 #can                    current version is not support
 cpuhotplug
 #new add by qilongyun
-crashme
 fs_readonly
 ima
 ltplite
@@ -49,3 +48,4 @@ syscalls-ipc
 #io_cd
 #io_floppy
 #nw_under_ns           need to study
+crashme

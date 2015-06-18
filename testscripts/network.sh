@@ -31,17 +31,17 @@ export RHOST_HWADDRS=${RHOST_HWADDRS:-"$(tst_get_hwaddrs rhost)"}
 # Set first three octets of the network address, default is '10.0.0'
 export IPV4_NETWORK=${IPV4_NETWORK:-"192.168.1"}
 # Set local host last octet, default is '2'
-export LHOST_IPV4_HOST=${LHOST_IPV4_HOST:-"33"}
+export LHOST_IPV4_HOST=${LHOST_IPV4_HOST:-"255"}
 # Set remote host last octet, default is '1'
-export RHOST_IPV4_HOST=${RHOST_IPV4_HOST:-"200"}
+export RHOST_IPV4_HOST=${RHOST_IPV4_HOST:-"196"}
 # Set the reverse of IPV4_NETWORK
 export IPV4_NET_REV=${IPV4_NET_REV:-"0.0.10"}
 # Set first three octets of the network address, default is 'fd00:1:1:1'
 export IPV6_NETWORK=${IPV6_NETWORK:-"fd00:1:1:1"}
 # Set local host last octet, default is '2'
-export LHOST_IPV6_HOST=${LHOST_IPV6_HOST:-":2"}
+export LHOST_IPV6_HOST=${LHOST_IPV6_HOST:-":255"}
 # Set remote host last octet, default is '1'
-export RHOST_IPV6_HOST=${RHOST_IPV6_HOST:-":1"}
+export RHOST_IPV6_HOST=${RHOST_IPV6_HOST:-":196"}
 # Reverse network portion of the IPv6 address
 export IPV6_NET_REV=${IPV6_NET_REV:-"1.0.0.0.1.0.0.0.1.0.0.0.0.0.d.f"}
 # Reverse host portion of the IPv6 address of the local host

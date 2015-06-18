@@ -50,7 +50,7 @@ get_address()
 do_test()
 {
 	tst_resm TINFO "doing test."
-	local ipaddr=$(tst_ipaddr)
+	local ipaddr=$(ping -c1 $(hostname)|awk '{print $3}'|sed -n 1p |sed 's/(//g'|sed 's/)//g')
 	COUNT=1
 	while [ $COUNT -le 2 ]
 	do

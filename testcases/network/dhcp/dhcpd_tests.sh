@@ -44,11 +44,38 @@ setup_dhcpd_conf()
 	[ $? -ne 0 ] && tst_brkm TBROK "failed to create dhcpd.conf"
 }
 
+setup_dhcpd_conf6()
+{
+	if [ -f /etc/dhcpd6.conf ]; then
+		DHCPD_CONF="/etc/dhcpd6.conf"
+	elif [ -f /etc/dhcp/dhcpd6.conf ]; then
+		DHCPD_CONF="/etc/dhcp/dhcpd6.conf"
+	else
+		tst_brkm TBROK "failed to find dhcpd6.conf"
+	fi
+
+	mv $DHCPD_CONF dhcpd6.conf
+	[ $? -ne 0 ] && tst_brkm TBROK "failed to backup dhcpd6.conf"
+
+	mv tst_dhcpd6.conf $DHCPD_CONF
+	[ $? -ne 0 ] && tst_brkm TBROK "failed to create dhcpd6.conf"
+}
+
 start_dhcpd()
 {
-	dhcpd -$ipv $iface0 > tst_dhcpd.err 2>&1
+	dhcpd -$ipv $iface0  > tst_dhcpd$ipv.err 2>&1
 	if [ $? -ne 0 ]; then
-		cat tst_dhcpd.err
+		cat tst_dhcpd$ipv.err
+		tst_brkm TBROK "Failed to start dhcpd" 
+	fi
+
+}
+
+start_dhcpd6()
+{
+	dhcpd -6 $iface0  -cf /etc/dhcp/dhcpd6.conf > tst_dhcpd$ipv.err 2>&1
+	if [ $? -ne 0 ]; then
+		cat tst_dhcpd$ipv.err
 		tst_brkm TBROK "Failed to start dhcpd" 
 	fi
 
@@ -71,7 +98,7 @@ start_dhcp()
 
 start_dhcp6()
 {
-	cat > tst_dhcpd.conf <<-EOF
+	cat > tst_dhcpd6.conf <<-EOF
 	ddns-update-style interim;
 	update-static-leases off;
 	subnet6 fd00:1:1:2::/64 {
@@ -80,8 +107,8 @@ start_dhcp6()
 		max-lease-time 5;
 	}
 	EOF
-	setup_dhcpd_conf
-	start_dhcpd
+	setup_dhcpd_conf6
+	start_dhcpd6
 }
 
 cleanup_dhcp()

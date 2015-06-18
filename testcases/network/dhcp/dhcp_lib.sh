@@ -62,6 +62,7 @@ init()
 		touch $dhclient_lease			    
 	fi
 
+	sleep 1
 	tst_resm TINFO "add $ip_addr to $iface0"
 	ip addr add $ip_addr dev $iface0 || \
 		tst_brkm TBROK "failed to add ip address"
@@ -101,6 +102,7 @@ test01()
 	fi
 
 	tst_resm TINFO "starting dhclient -${ipv} $iface1"
+	sleep 2
 	dhclient -$ipv $iface1 || \
 		tst_brkm TBROK "dhclient failed"
 
