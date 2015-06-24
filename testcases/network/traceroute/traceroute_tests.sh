@@ -67,6 +67,8 @@ init()
     export TCID="traceroute"
     export TST_COUNT=0
 
+	LocalIP=$(ping -c1 $(hostname)|awk '{print $3}'|sed -n 1p |sed 's/(//g'|sed 's/)//g')
+	
     # Inititalize cleanup function.
     trap "cleanup" 0
 
@@ -95,7 +97,7 @@ init()
 
     # Create expected file.
     cat > $LTPTMP/tst_traceroute.exp <<-EOF || RC=$?
-    traceroute to $(hostname) ($(hostname -i)), 30 hops max, 38 byte packets
+    traceroute to $(hostname) ($LocalIP), 30 hops max, 38 byte packets
 	EOF
 
     if [ $RC -ne 0 ]

@@ -94,7 +94,15 @@ if [ $(($CMD&$CMD_TCPCMDS_ADD)) -ne 0 ]; then
     cat  ${LTPROOT}/runtest/tcp_cmds_addition >> $CMDFILE
 fi
 
-cd $TMPDIR
+cd ${LTPROOT}
+
+if [ ! -d ${LTPROOT}/results ];then
+	mkdir ${LTPROOT}/results
+fi
+
+if [ ! -d ${LTPROOT}/output ];then
+	mkdir ${LTPROOT}/output
+fi
 
 if [ ${VERBOSE} = "yes" ]; then
     echo "Network parameters:"
@@ -103,10 +111,10 @@ if [ ${VERBOSE} = "yes" ]; then
     cat $CMDFILE
     ${LTPROOT}/ver_linux
     echo ""
-    echo ${LTPROOT}/bin/ltp-pan -e -p -l /opt/ltp/results/networktest.log -S -a ltpnet -n ltpnet -f $CMDFILE -o /opt/ltp/output/networktest.output 
+    echo ${LTPROOT}/bin/ltp-pan -e -p -l ${LTPROOT}/results/networktest.log -S -a ltpnet -n ltpnet -f $CMDFILE -o ${LTPROOT}/output/networktest.output 
 fi
 
-${LTPROOT}/bin/ltp-pan -e -p -l /opt/ltp/results/networktest.log -S -a ltpnet -n ltpnet -f $CMDFILE  -o /opt/ltp/output/networktest.output 
+${LTPROOT}/bin/ltp-pan -e -p -l ${LTPROOT}/results/networktest.log -S -a ltpnet -n ltpnet -f $CMDFILE  -o ${LTPROOT}/output/networktest.output 
 if [ $? -eq "0" ]; then
   echo ltp-pan reported PASS
 else
