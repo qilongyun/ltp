@@ -31,6 +31,7 @@
 #include "test.h"
 #include "safe_macros.h"
 #include "lapi/fcntl.h"
+#include "lapi/mount.h"
 
 #define MNTPOINT	"mntpoint"
 #define TEST_FILE	MNTPOINT"/test_file"
@@ -88,6 +89,14 @@ static void setup(void)
 
 	if (tst_path_has_mnt_flags(cleanup, NULL, mount_flags)) {
 		const char *fs_type;
+
+		if ((tst_kvercmp(2, 6, 30)) < 0) {
+			tst_resm(TCONF,
+				"MS_STRICTATIME flags for mount(2) needs kernel 2.6.30 "
+				"or higher");
+			skip_noatime = 1;
+			return;
+		}
 
 		fs_type = tst_dev_fs_type();
 		device = tst_acquire_device(cleanup);

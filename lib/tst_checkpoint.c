@@ -29,12 +29,11 @@
 
 #include "test.h"
 #include "safe_macros.h"
+#include "lapi/futex.h"
 
 #define DEFAULT_MSEC_TIMEOUT 10000
 
-typedef volatile uint32_t futex_t;
-
-static futex_t *futexes;
+futex_t *tst_futexes;
 static int page_size;
 
 void tst_checkpoint_init(const char *file, const int lineno,
@@ -42,7 +41,7 @@ void tst_checkpoint_init(const char *file, const int lineno,
 {
 	int fd;
 
-	if (futexes) {
+	if (tst_futexes) {
 		tst_brkm(TBROK, cleanup_fn,
 		         "%s: %d checkopoints allready initialized",
 		         file, lineno);
@@ -72,7 +71,7 @@ void tst_checkpoint_init(const char *file, const int lineno,
 
 	SAFE_FTRUNCATE(cleanup_fn, fd, page_size);
 
-	futexes = SAFE_MMAP(cleanup_fn, NULL, page_size,
+	tst_futexes = SAFE_MMAP(cleanup_fn, NULL, page_size,
 	                    PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
 
 	SAFE_CLOSE(cleanup_fn, fd);
@@ -90,7 +89,8 @@ int tst_checkpoint_wait(unsigned int id, unsigned int msec_timeout)
 	timeout.tv_sec = msec_timeout/1000;
 	timeout.tv_nsec = (msec_timeout%1000) * 1000000;
 
-	return syscall(SYS_futex, &futexes[id], FUTEX_WAIT, futexes[id], &timeout);
+	return syscall(SYS_futex, &tst_futexes[id], FUTEX_WAIT,
+		       tst_futexes[id], &timeout);
 }
 
 int tst_checkpoint_wake(unsigned int id, unsigned int nr_wake,
@@ -104,7 +104,8 @@ int tst_checkpoint_wake(unsigned int id, unsigned int nr_wake,
 	}
 
 	do {
-		waked += syscall(SYS_futex, &futexes[id], FUTEX_WAKE, INT_MAX, NULL);
+		waked += syscall(SYS_futex, &tst_futexes[id], FUTEX_WAKE,
+				 INT_MAX, NULL);
 		usleep(1000);
 		msecs++;
 
