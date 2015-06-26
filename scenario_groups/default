@@ -21,7 +21,7 @@ admin_tools
 timers
 power_management_tests_exclusive
 #numa               bug#60 system is not support
-#hugetlb            bug#43 crash system
+hugetlb            
 commands
 hyperthreading
 kernel_misc
@@ -39,7 +39,7 @@ ltplite
 perfcounters
 quickhit
 sctp
-securebits
+#securebits            bug#70  need to solve
 tracing
 tirpc_tests
 syscalls-ipc

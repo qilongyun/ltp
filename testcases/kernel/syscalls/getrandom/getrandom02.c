@@ -32,6 +32,11 @@
 #include <linux/random.h>
 #include "test.h"
 
+/* current use kernel ver is 3.10.0  this testcase is not support */
+#define SYS_getrandom   1
+#define GRND_RANDOM     1
+#define GRND_NONBLOCK   2
+
 static int modes[] = {0, GRND_RANDOM, GRND_NONBLOCK,
 						GRND_RANDOM | GRND_NONBLOCK};
 

@@ -35,6 +35,13 @@
 #include <sys/syscall.h>
 #include "test.h"
 
+/* current use kernel ver is 3.10.0  this testcase is not support */
+#define SYS_getrandom   1
+#define GRND_RANDOM     1
+#define GRND_NONBLOCK   2
+
+
+
 #define MAX_SIZE 256
 
 char *TCID = "getrandom03";
