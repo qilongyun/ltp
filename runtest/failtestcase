@@ -1,135 +1,135 @@
-#admin_tools
-#use ./su01 to execute is ok
-su01 export TCbin=$LTPROOT/testcases/bin;su01
-
-#syscalls
-#needs kernel 3.17 or newer
-getrandom01 getrandom01
-getrandom02 getrandom02
-getrandom03 getrandom03
-getrandom04 getrandom04
-
-#nw_under_ns    need to study
-network_namespace       nw_under_ns.sh
-
-#controllers    need to study
-cgroup          cgroup_regression_test.sh
-memcg_regression        memcg_regression_test.sh
-memcg_function          memcg_function_test.sh
-memcg_max_usage_in_bytes        memcg_max_usage_in_bytes_test.sh
-memcg_move_charge_at_immigrate  memcg_move_charge_at_immigrate_test.sh
-memcg_memsw_limit_in_bytes      memcg_memsw_limit_in_bytes_test.sh
-memcg_stat      memcg_stat_test.sh
-memcg_use_hierarchy     memcg_use_hierarchy_test.sh
-memcg_usage_in_bytes    memcg_usage_in_bytes_test.sh
-memcg_stress            memcg_stress_test.sh
-memcg_control           PAGESIZE=$(mem_process -p);memcg_control_test.sh $PAGESIZE $PAGESIZE $((PAGESIZE * 2))
-cgroup_fj       run_cgroup_test_fj.sh
-controllers     test_controllers.sh
-cpuset_base_ops cpuset_base_ops_testset.sh
-cpuset_inherit  cpuset_inherit_testset.sh
-cpuset_exclusive        cpuset_exclusive_test.sh
-cpuset_hierarchy        cpuset_hierarchy_test.sh
-cpuset_syscall  cpuset_syscall_testset.sh
-cpuset_sched_domains    cpuset_sched_domains_test.sh
-cpuset_load_balance     cpuset_load_balance_test.sh
-cpuset_hotplug  cpuset_hotplug_test.sh
-cpuset_memory   cpuset_memory_testset.sh
-cpuset_memory_pressure  cpuset_memory_pressure_testset.sh
-cpuset_memory_spread    cpuset_memory_spread_testset.sh
-cgroup_xattr    cgroup_xattr
-
-#===========================================
-#            BUG
-#===========================================
-
-#syscalls
-#bug#44
-fanotify06 fanotify06   
-#bug#45
-perf_event_open01 perf_event_open01
-#bug#62
-gethostbyname_r01 gethostbyname_r01
-#bug#63
-mmap16 mmap16
-
-#commands
-#bug#46
-mail export TCdat=$LTPROOT/testcases/bin; mail_tests.sh
-
-#securebits            
-#bug#70  need to solve
-check_keepcaps01 check_keepcaps 1
-check_keepcaps02 check_keepcaps 2
-check_keepcaps03 check_keepcaps 3
-
-#kernel_misc:
-#bug#52
-rtc01 rtc01        
-
-#dma_thread_diotest  
-#bug#51
-dma_thread_diotest1 dma_thread_diotest -a 512
-dma_thread_diotest2 dma_thread_diotest -a 1024
-dma_thread_diotest3 dma_thread_diotest -a 1536
-dma_thread_diotest4 dma_thread_diotest -a 2048
-dma_thread_diotest5 dma_thread_diotest -a 2560
-dma_thread_diotest6 dma_thread_diotest -a 3072
-dma_thread_diotest7 dma_thread_diotest -a 3584
-
-
-#smack
-#bug#58   kernel is not support
-smack_set_ambient       smack_set_ambient.sh
-smack_set_current       smack_set_current.sh
-smack_set_doi           smack_set_doi.sh
-smack_set_netlabel      smack_set_netlabel.sh
-smack_set_socket_labels smack_set_socket_labels
-smack_set_cipso         smack_set_cipso.sh
-smack_set_direct        smack_set_direct.sh
-smack_set_load          smack_set_load.sh
-smack_set_onlycap       smack_set_onlycap.sh
-smack_file_access       smack_file_access.sh
-
-#tpm_tools            
-#bug#59 kernel is not support
-tpm01           tpm_selftest_tests.sh
-tpm02           tpm_version_tests.sh
-tpm03           tpm_getpubek_tests.sh
-tpm04           tpm_takeownership_tests.sh
-tpm05           tpm_restrictpubek_tests.sh
-tpm06           tpm_changeauth_tests.sh
-tpmtoken01      tpmtoken_init_tests.sh
-tpmtoken02      tpmtoken_setpasswd_tests.sh
-tpmtoken03      tpmtoken_import_tests.sh
-tpmtoken04      tpmtoken_protect_tests.sh
-tpmtoken05      tpmtoken_objects_tests.sh
-tpm07           tpm_clear_tests.sh
-
-#numa               
-#bug#60 system is not support
-Numa-testcases numa01.sh
-move_pages01 move_pages.sh 01
-move_pages02 move_pages.sh 02
-move_pages03 cd $LTPROOT/testcases/bin && chown root move_pages03 && chmod 04755 move_pages03 && move_pages.sh 03
-move_pages04 move_pages.sh 04
-move_pages05 move_pages.sh 05
-move_pages06 move_pages.sh 06
-move_pages07 move_pages.sh 07
-move_pages08 move_pages.sh 08
-move_pages09 move_pages.sh 09
-move_pages10 move_pages.sh 10
-move_pages11 cd $LTPROOT/testcases/bin && chown root move_pages11 && chmod 04755 move_pages11 && move_pages.sh 11
-
-#rpc_tests bug#65   http://sourceforge.net/p/ltp/mailman/message/32142516/ 
-rpc_clnt_broadcast rpc_test.sh -s rpc_svc_1 -c rpc_clnt_broadcast          
-rpc_svc_destroy rpc_test.sh -c rpc_svc_destroy
-rpc_svcfd_create rpc_test.sh -c rpc_svcfd_create
-rpc_xprt_register rpc_test.sh -c rpc_xprt_register
-rpc_xprt_unregister rpc_test.sh -c rpc_xprt_unregister
-
-#tirpc_tests   bug#66
-tirpc_authdes_create rpc_test.sh -s tirpc_svc_1 -c tirpc_authdes_create               
-tirpc_authdes_seccreate rpc_test.sh -s tirpc_svc_1 -c tirpc_authdes_seccreate
+##admin_tools
+##use ./su01 to execute is ok
+#su01 export TCbin=$LTPROOT/testcases/bin;su01
+#
+##syscalls
+##needs kernel 3.17 or newer
+#getrandom01 getrandom01
+#getrandom02 getrandom02
+#getrandom03 getrandom03
+#getrandom04 getrandom04
+#
+##nw_under_ns    need to study
+#network_namespace       nw_under_ns.sh
+#
+##controllers    need to study
+#cgroup          cgroup_regression_test.sh
+#memcg_regression        memcg_regression_test.sh
+#memcg_function          memcg_function_test.sh
+#memcg_max_usage_in_bytes        memcg_max_usage_in_bytes_test.sh
+#memcg_move_charge_at_immigrate  memcg_move_charge_at_immigrate_test.sh
+#memcg_memsw_limit_in_bytes      memcg_memsw_limit_in_bytes_test.sh
+#memcg_stat      memcg_stat_test.sh
+#memcg_use_hierarchy     memcg_use_hierarchy_test.sh
+#memcg_usage_in_bytes    memcg_usage_in_bytes_test.sh
+#memcg_stress            memcg_stress_test.sh
+#memcg_control           PAGESIZE=$(mem_process -p);memcg_control_test.sh $PAGESIZE $PAGESIZE $((PAGESIZE * 2))
+#cgroup_fj       run_cgroup_test_fj.sh
+#controllers     test_controllers.sh
+#cpuset_base_ops cpuset_base_ops_testset.sh
+#cpuset_inherit  cpuset_inherit_testset.sh
+#cpuset_exclusive        cpuset_exclusive_test.sh
+#cpuset_hierarchy        cpuset_hierarchy_test.sh
+#cpuset_syscall  cpuset_syscall_testset.sh
+#cpuset_sched_domains    cpuset_sched_domains_test.sh
+#cpuset_load_balance     cpuset_load_balance_test.sh
+#cpuset_hotplug  cpuset_hotplug_test.sh
+#cpuset_memory   cpuset_memory_testset.sh
+#cpuset_memory_pressure  cpuset_memory_pressure_testset.sh
+#cpuset_memory_spread    cpuset_memory_spread_testset.sh
+#cgroup_xattr    cgroup_xattr
+#
+##===========================================
+##            BUG
+##===========================================
+#
+##syscalls
+##bug#44
+#fanotify06 fanotify06   
+##bug#45
+#perf_event_open01 perf_event_open01
+##bug#62
+#gethostbyname_r01 gethostbyname_r01
+##bug#63
+#mmap16 mmap16
+#
+##commands
+##bug#46
+#mail export TCdat=$LTPROOT/testcases/bin; mail_tests.sh
+#
+##securebits            
+##bug#70  need to solve
+#check_keepcaps01 check_keepcaps 1
+#check_keepcaps02 check_keepcaps 2
+#check_keepcaps03 check_keepcaps 3
+#
+##kernel_misc:
+##bug#52
+#rtc01 rtc01        
+#
+##dma_thread_diotest  
+##bug#51
+#dma_thread_diotest1 dma_thread_diotest -a 512
+#dma_thread_diotest2 dma_thread_diotest -a 1024
+#dma_thread_diotest3 dma_thread_diotest -a 1536
+#dma_thread_diotest4 dma_thread_diotest -a 2048
+#dma_thread_diotest5 dma_thread_diotest -a 2560
+#dma_thread_diotest6 dma_thread_diotest -a 3072
+#dma_thread_diotest7 dma_thread_diotest -a 3584
+#
+#
+##smack
+##bug#58   kernel is not support
+#smack_set_ambient       smack_set_ambient.sh
+#smack_set_current       smack_set_current.sh
+#smack_set_doi           smack_set_doi.sh
+#smack_set_netlabel      smack_set_netlabel.sh
+#smack_set_socket_labels smack_set_socket_labels
+#smack_set_cipso         smack_set_cipso.sh
+#smack_set_direct        smack_set_direct.sh
+#smack_set_load          smack_set_load.sh
+#smack_set_onlycap       smack_set_onlycap.sh
+#smack_file_access       smack_file_access.sh
+#
+##tpm_tools            
+##bug#59 kernel is not support
+#tpm01           tpm_selftest_tests.sh
+#tpm02           tpm_version_tests.sh
+#tpm03           tpm_getpubek_tests.sh
+#tpm04           tpm_takeownership_tests.sh
+#tpm05           tpm_restrictpubek_tests.sh
+#tpm06           tpm_changeauth_tests.sh
+#tpmtoken01      tpmtoken_init_tests.sh
+#tpmtoken02      tpmtoken_setpasswd_tests.sh
+#tpmtoken03      tpmtoken_import_tests.sh
+#tpmtoken04      tpmtoken_protect_tests.sh
+#tpmtoken05      tpmtoken_objects_tests.sh
+#tpm07           tpm_clear_tests.sh
+#
+##numa               
+##bug#60 system is not support
+#Numa-testcases numa01.sh
+#move_pages01 move_pages.sh 01
+#move_pages02 move_pages.sh 02
+#move_pages03 cd $LTPROOT/testcases/bin && chown root move_pages03 && chmod 04755 move_pages03 && move_pages.sh 03
+#move_pages04 move_pages.sh 04
+#move_pages05 move_pages.sh 05
+#move_pages06 move_pages.sh 06
+#move_pages07 move_pages.sh 07
+#move_pages08 move_pages.sh 08
+#move_pages09 move_pages.sh 09
+#move_pages10 move_pages.sh 10
+#move_pages11 cd $LTPROOT/testcases/bin && chown root move_pages11 && chmod 04755 move_pages11 && move_pages.sh 11
+#
+##rpc_tests bug#65   http://sourceforge.net/p/ltp/mailman/message/32142516/ 
+#rpc_clnt_broadcast rpc_test.sh -s rpc_svc_1 -c rpc_clnt_broadcast          
+#rpc_svc_destroy rpc_test.sh -c rpc_svc_destroy
+#rpc_svcfd_create rpc_test.sh -c rpc_svcfd_create
+#rpc_xprt_register rpc_test.sh -c rpc_xprt_register
+#rpc_xprt_unregister rpc_test.sh -c rpc_xprt_unregister
+#
+##tirpc_tests   bug#66
+#tirpc_authdes_create rpc_test.sh -s tirpc_svc_1 -c tirpc_authdes_create               
+#tirpc_authdes_seccreate rpc_test.sh -s tirpc_svc_1 -c tirpc_authdes_seccreate
 
 
