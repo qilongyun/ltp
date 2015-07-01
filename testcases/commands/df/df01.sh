@@ -32,8 +32,14 @@ setup()
 
 	tst_acquire_device
 
-	ROD_SILENT mkfs.${FS_TYPE} ${TST_DEVICE}
-
+	#ROD_SILENT mkfs.${FS_TYPE} ${TST_DEVICE}
+    
+	if [ ${FS_TYPE} == "xfs" ]; then
+    	mkfs.${FS_TYPE} -f ${TST_DEVICE}
+	else
+	    mkfs.${FS_TYPE}  ${TST_DEVICE}
+	fi
+	
 	ROD_SILENT mkdir -p mntpoint
 
 	mount ${TST_DEVICE} mntpoint
