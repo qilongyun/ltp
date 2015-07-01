@@ -46,7 +46,8 @@ if [ $RESULT -eq "0" ]; then
 else
   echo "FAIL: fsxtest $1 $2 $3"
 fi
-umount /testmount
+umount -f $1
+umount -f /testmount
 rm -rf /testmount
 fsck -a -t $2 $1  # report the results
 exit $RESULT
