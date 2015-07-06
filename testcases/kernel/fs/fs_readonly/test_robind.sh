@@ -61,6 +61,7 @@ usage()
 
 	OPTIONS
 		-h    display this message and exit
+        -t    filesystem type
 		-c    command to be executed
 
 EOF
@@ -77,7 +78,7 @@ umount_mntpoint()
 			dir3_ro_mount_flag=0
 		fi
 	fi
-
+    sleep 3
 	if [ $dir2_bound_mount_flag -eq 1 ];then
 		umount dir2-bound
 		if [ $? -ne 0 ];then
@@ -86,7 +87,7 @@ umount_mntpoint()
 			dir2_bound_mount_flag=0
 		fi
 	fi
-
+    sleep 3
 	if [ $dir1_mount_flag -eq 1 ];then
 		umount dir1
 		if [ $? -ne 0 ];then
@@ -95,6 +96,7 @@ umount_mntpoint()
 			dir1_mount_flag=0
 		fi
 	fi
+	sleep 3
 }
 
 cleanup()
@@ -124,11 +126,8 @@ setup()
 	done
 
 	# populating the default FS as ext3, if FS is not given
-	# runtltp use -Z xfs
-	if [ -z "$LTP_BIG_DEV_FS_TYPE" ]; then
-		FSTYPES="ext3"
-	else
-		FSTYPES="$LTP_BIG_DEV_FS_TYPE"
+	if [ -z "$FSTYPES" ]; then
+		FSTYPES="ext4"
 	fi
 }
 
@@ -178,10 +177,12 @@ testdir()
 #     in this test's prolog.
 #=============================================================================
 
-while getopts c:h: OPTION; do
+while getopts c:t:h: OPTION; do
 	case $OPTION in
 	c)
 		command=$OPTARG;;
+	t)	
+		FSTYPES=$OPTARG;;
 	h)
 		usage;;
 	?)
@@ -194,13 +195,15 @@ setup $*
 
 # Executes the tests for differnt FS's
 for fstype in $FSTYPES; do
-	opts="-F"
+	opts=""
 	if [ "$fstype" = "reiserfs" ]; then
 		opts="-f --journal-size 513 -q"
 	elif [ "$fstype" = "jfs" ]; then
 		opts="-f"
 	elif [ "$fstype" = "xfs" ]; then
-		opts=""
+		opts="-f"
+	elif [ "$fstype" = "btrfs" ]; then
+	   opts="-f"
 	fi
 
 	if [ "$fstype" != "ramfs" ]; then
