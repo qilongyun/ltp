@@ -127,9 +127,9 @@ void *func_nonrt(void *arg)
 			if ((i % 100) == 0) {
 				sched_getparam(tid, &schedp);
 				policy = sched_getscheduler(tid);
-				printf("Thread %d(%d) loop %d pthread pol %d "
+			/*	printf("Thread %d(%d) loop %d pthread pol %d "
 				       "pri %d\n", tid, pthr->priority, i,
-				       policy, schedp.sched_priority);
+				       policy, schedp.sched_priority); */
 				fflush(NULL);
 			}
 			pthr->id++;
@@ -182,10 +182,10 @@ void *func_rt(void *arg)
 			if (i % 100 == 0) {
 				sched_getparam(tid, &schedp);
 				policy = sched_getscheduler(tid);
-				printf
+			/*	printf
 				    ("Thread %d(%d) loop %d pthread pol %d pri %d\n",
 				     tid, pthr->priority, i, policy,
-				     schedp.sched_priority);
+				     schedp.sched_priority); */
 				fflush(NULL);
 			}
 			pthr->id++;
@@ -229,10 +229,10 @@ void *func_noise(void *arg)
 			if ((i % 100) == 0) {
 				sched_getparam(tid, &schedp);
 				policy = sched_getscheduler(tid);
-				printf
+			/*	printf
 				    ("Noise Thread %d(%d) loop %d pthread pol %d pri %d\n",
 				     tid, pthr->priority, i, policy,
-				     schedp.sched_priority);
+				     schedp.sched_priority); */
 				fflush(NULL);
 			}
 			pthr->id++;

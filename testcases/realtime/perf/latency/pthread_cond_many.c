@@ -131,7 +131,7 @@ pthread_t create_thread_(int itsid)
 			exit(-1);
 		}
 	}
-	if (pthread_attr_setstacksize(&attr, (size_t) (32 * 1024)) != 0) {
+	if (pthread_attr_setstacksize(&attr, (size_t) (1024 * 1024)) != 0) {
 		perror("pthread_attr_setstacksize");
 		exit(-1);
 	}

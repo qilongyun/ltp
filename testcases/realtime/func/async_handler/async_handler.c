@@ -91,9 +91,11 @@ int parse_args(int c, char *v)
 }
 
 void *handler_thread(void *arg)
-{
+{ 
+ 	int handler_num=0;
 
 	while (atomic_get(&step) != CHILD_QUIT) {
+		++handler_num;
 		pthread_mutex_lock(&mutex);
 		atomic_set(CHILD_WAIT, &step);
 		if (pthread_cond_wait(&cond, &mutex) != 0) {
@@ -106,7 +108,7 @@ void *handler_thread(void *arg)
 		while (atomic_get(&step) == CHILD_HANDLED)
 			usleep(10);
 	}
-	printf("handler thread exiting\n");
+	printf("handler thread exiting, handler_num = %d\n",handler_num);
 	return 0;
 }
 
@@ -118,7 +120,7 @@ void *signal_thread(void *arg)
 	stats_container_t dat;
 	stats_container_t hist;
 	stats_record_t rec;
-
+	int unPassCount=0;
 	stats_container_init(&dat, iterations);
 	stats_container_init(&hist, HIST_BUCKETS);
 
@@ -141,7 +143,11 @@ void *signal_thread(void *arg)
 			usleep(10);
 		delta = (long)((end - start) / NS_PER_US);
 		if (delta > pass_criteria)
+		{
 			ret = 1;
+			++unPassCount;
+			//printf("unPass: Delta: %dus --- i:%d \n",delta,i);
+		}
 		rec.x = i;
 		rec.y = delta;
 		stats_container_append(&dat, rec);
@@ -159,6 +165,8 @@ void *signal_thread(void *arg)
 	printf("Max: %ld us\n", max);
 	printf("Avg: %.4f us\n", stats_avg(&dat));
 	printf("StdDev: %.4f us\n", stats_stddev(&dat));
+	printf("unPassCount: %d\n",unPassCount);
+	
 	stats_hist(&hist, &dat);
 	stats_container_save("samples",
 			     "Asynchronous Event Handling Latency Scatter Plot",

@@ -7,7 +7,8 @@ fi
 
 source $SCRIPTS_DIR/setenv.sh
 LOG_FILE="$LOG_DIR/$LOG_FORMAT-pthread_cond_many.log"
-
+mkdir -p $LOG_DIR
+touch $LOG_FILE
 echo -e "Logging to: " | tee -a $LOG_FILE
 echo -e "$LOG_FILE " | tee -a $LOG_FILE
 echo -e "and to local individual .out files " | tee -a $LOG_FILE
@@ -22,8 +23,8 @@ make
 # process to run realtime.  The remainder of the processes (if any)
 # will run non-realtime in any case.
 
-nthread=5000
-iter=400
+nthread=100
+iter=100
 nproc=5
 
 echo -e "pthread_cond_many configuration:" | tee -a $LOG_FILE

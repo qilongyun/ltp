@@ -48,9 +48,10 @@ func/thread_clock		tc-2 -c 0.5
 
 # The below tests have no pass/fail criterium.
 func/gtod_latency		gtod_latency
+func/hrtimer-prio       hrtimer-prio
 func/sched_jitter		sched_jitter
 func/periodic_cpu_load		periodic_cpu_load
-func/periodic_cpu_load		periodic_cpu_load_single
+func/periodic_cpu_load		periodic_cpu_load_single -l 500 -t 9 
 func/prio-wake			prio-wake
 func/sched_football		sched_football
 func/pi-tests			testpi-0

@@ -53,6 +53,7 @@
 #define ITERATIONS 10000000
 #define HIST_BUCKETS 100
 #define PASS_US 100
+static int iterations = 0;
 
 nsec_t start;
 nsec_t end;
@@ -84,6 +85,9 @@ int parse_args(int c, char *v)
 	case 'h':
 		usage();
 		exit(0);
+	case 'i':
+		iterations = atoi(v);
+		break;
 	default:
 		handled = 0;
 		break;
@@ -134,11 +138,16 @@ void *signal_thread(void *arg)
 	stats_container_t hist;
 	stats_record_t rec;
 
-	stats_container_init(&dat, ITERATIONS);
+	if(iterations==0)
+	{
+		iterations= ITERATIONS;
+	}
+	stats_container_init(&dat, iterations);
 	stats_container_init(&hist, HIST_BUCKETS);
 
 	min = max = 0;
-	for (i = 0; i < ITERATIONS; i++) {
+	
+	for (i = 0; i < iterations; i++) {
 		/* wait for child to wait on cond, then signal the event */
 		while (atomic_get(&step) != CHILD_WAIT)
 			usleep(10);
@@ -171,7 +180,7 @@ void *signal_thread(void *arg)
 			min = MIN(min, delta);
 			max = MAX(max, delta);
 		}
-		atomic_set((i == ITERATIONS - 1) ? CHILD_QUIT : CHILD_START,
+		atomic_set((i == iterations - 1) ? CHILD_QUIT : CHILD_START,
 			   &step);
 	}
 	printf("recording statistics...\n");
@@ -201,7 +210,7 @@ int main(int argc, char *argv[])
 #endif
 	setup();
 
-	rt_init("h", parse_args, argc, argv);
+	rt_init("i:h", parse_args, argc, argv);
 
 	printf("-------------------------------\n");
 	printf("Asynchronous Event Handling Latency\n");

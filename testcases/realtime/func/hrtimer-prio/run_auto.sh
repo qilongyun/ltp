@@ -9,4 +9,4 @@ fi
 
 source $SCRIPTS_DIR/setenv.sh
 
-$SCRIPTS_DIR/run_c_files.sh $profile "hrtimer-prio"
+$SCRIPTS_DIR/run_c_files.sh $profile hrtimer-prio
