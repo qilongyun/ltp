@@ -43,7 +43,7 @@ int main(void)
 		printf("An error occurs when calling pthread_attr_init()");
 		return PTS_UNRESOLVED;
 	}
-	result = pthread_attr_setscope(&attr, PTHREAD_SCOPE_PROCESS);
+	result = pthread_attr_setscope(&attr, PTHREAD_SCOPE_SYSTEM);
 	if (result == ENOTSUP) {
 		printf("Process contention scope threads are not supported.\n");
 		return PTS_UNSUPPORTED;
