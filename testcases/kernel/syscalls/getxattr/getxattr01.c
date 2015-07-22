@@ -120,7 +120,7 @@ int main(int argc, char *argv[])
 			}
 		}
 
-		if (strcmp(tc[i - 1].value, XATTR_TEST_VALUE))
+		if (strncmp(tc[i - 1].value, XATTR_TEST_VALUE,strlen(XATTR_TEST_VALUE)))
 			tst_resm(TFAIL, "Wrong value, expect \"%s\" got \"%s\"",
 				 XATTR_TEST_VALUE, tc[i - 1].value);
 		else
@@ -158,6 +158,7 @@ static void setup(void)
 	/* Prepare test cases */
 	for (i = 0; i < (sizeof(tc) / sizeof(tc[0])); i++) {
 		tc[i].value = malloc(BUFFSIZE);
+		memset(tc[i].value,0,BUFFSIZE);
 		if (tc[i].value == NULL) {
 			tst_brkm(TBROK | TERRNO, cleanup,
 				 "Cannot allocate memory");
