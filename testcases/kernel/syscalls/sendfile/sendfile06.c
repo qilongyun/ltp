@@ -110,14 +110,19 @@ static void do_child(void)
 	socklen_t length = sizeof(sin1);
 	char rbuf[4096];
 	ssize_t ret, bytes_total_received = 0;
+	int count=0;
 
 	while (bytes_total_received < sb.st_size) {
 		ret = recvfrom(sockfd, rbuf, 4096, 0, (struct sockaddr *)&sin1,
 			       &length);
-		if (ret < 0) {
+		if (ret < 0 || count>= 1000) {
 			fprintf(stderr, "child process recvfrom failed: %s\n",
 				strerror(errno));
 			exit(1);
+		}
+		else if( ret == 0)
+		{
+			count++;			
 		}
 		bytes_total_received += ret;
 	}
