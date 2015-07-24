@@ -35,7 +35,7 @@ cpuhotplug
 #new add by qilongyun
 fs_readonly
 ima
-ltplite
+#ltplite                The minimum test set
 perfcounters
 quickhit
 sctp
