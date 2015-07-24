@@ -45,7 +45,7 @@ tvar=${tvar#*-}
 export tvar
 printf "Machine type is: $tvar\n\n"
 
-if [ "$tvar" = "redhat" -o "$tvar" = "redhat-linux" ]
+if [ "$tvar" = "redhat" -o "$tvar" = "redhat-linux" -o "$tvar" = "redos-linux" ]
 # Need to also set group for TEST_USER2
 then
 export TEST_USER1_GROUP="wheel"

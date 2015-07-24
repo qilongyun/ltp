@@ -198,7 +198,7 @@ else
 	if [ -z "$RC1" -a -z "$RC2" -a -z "$RC3" ]; then
 		RC4=$(awk '{print match($1 $2 $3, "Nomailfor")}' \
         	    $LTPTMP/tst_mail.res)
-		if [ \( "$tvar" = "redhat" -o "$tvar" = "redhat-linux" \) -a -n "$RC4" ]; then
+		if [ \( "$tvar" = "redhat" -o "$tvar" = "redhat-linux" -o "$tvar" = "redos-linux" \) -a -n "$RC4" ]; then
 			tst_resm TPASS \
 				"Test #2: No new mail for root as expected"
 		else
