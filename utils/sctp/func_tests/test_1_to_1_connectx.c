@@ -130,6 +130,7 @@ main(int argc, char *argv[])
 
 	/*sctp_connectx () TEST3: Invalid address, EINVAL Expected error*/
 	tmp_addr = (struct sockaddr *) malloc(sizeof(struct sockaddr) - 1);
+	memset(tmp_addr,0,sizeof(struct sockaddr));
 	tmp_addr->sa_family = AF_INET;
 	error = sctp_connectx(sk, tmp_addr, 1, NULL);
 	if (error != -1 || errno != EINVAL)
