@@ -57,14 +57,14 @@ static void setup(void)
 int child_func(void *arg)
 {
 	char buf[10];
-
+    int ret_link=0;
 	if (mount("none", PROCDIR, "proc", MS_RDONLY, NULL) == -1) {
 		perror("mount");
 		return 1;
 	}
 
 	/* self is symlink to directory named after current pid number */
-	if (readlink(PROCDIR"/self", buf, sizeof(buf)) == -1) {
+	if ((ret_link=readlink(PROCDIR"/self", buf, sizeof(buf))) == -1) {
 		perror("readlink");
 		umount(PROCDIR);
 		return 1;
@@ -74,7 +74,7 @@ int child_func(void *arg)
 
 	/* child should have PID 1 in a new pid namespace - if true
 	 * procfs belongs to the new pid namespace */
-	if (strcmp(buf, "1")) {
+	if (strncmp(buf, "1",ret_link)) {
 		fprintf(stderr, "%s contains: %s\n", PROCDIR"/self", buf);
 		return 1;
 	}
