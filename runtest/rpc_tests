@@ -10,7 +10,7 @@ rpc_authunix_create rpc_test.sh -c rpc_authunix_create
 rpc_authunix_create_default rpc_test.sh -c rpc_authunix_create_default
 rpc_auth_destroy rpc_test.sh -c rpc_auth_destroy
 
-#rpc_clnt_broadcast rpc_test.sh -s rpc_svc_1 -c rpc_clnt_broadcast           http://sourceforge.net/p/ltp/mailman/message/32142516/ 
+rpc_clnt_broadcast rpc_test.sh -s rpc_svc_1 -c rpc_clnt_broadcast         
 
 #rpc_svc_destroy rpc_test.sh -c rpc_svc_destroy
 #rpc_svcfd_create rpc_test.sh -c rpc_svcfd_create

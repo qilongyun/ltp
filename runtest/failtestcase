@@ -48,8 +48,6 @@
 #fanotify06 fanotify06   
 ##bug#45
 #perf_event_open01 perf_event_open01
-##bug#62
-#gethostbyname_r01 gethostbyname_r01
 ##bug#63
 #mmap16 mmap16
 #
@@ -121,9 +119,8 @@
 #move_pages10 move_pages.sh 10
 #move_pages11 cd $LTPROOT/testcases/bin && chown root move_pages11 && chmod 04755 move_pages11 && move_pages.sh 11
 #
-##rpc_tests bug#65   http://sourceforge.net/p/ltp/mailman/message/32142516/ 
-#rpc_clnt_broadcast rpc_test.sh -s rpc_svc_1 -c rpc_clnt_broadcast          
-#rpc_svc_destroy rpc_test.sh -c rpc_svc_destroy
+##rpc_tests bug#147   https://www.mail-archive.com/ltp-list@lists.sourceforge.net/msg18234.html
+#rpc_svc_destroy rpc_test.sh -c rpc_svc_destroy    
 #rpc_svcfd_create rpc_test.sh -c rpc_svcfd_create
 #rpc_xprt_register rpc_test.sh -c rpc_xprt_register
 #rpc_xprt_unregister rpc_test.sh -c rpc_xprt_unregister
