@@ -4,7 +4,6 @@ fs_perms_simple
 fsx
 dio
 io
-mm
 ipc
 sched
 math
@@ -49,3 +48,4 @@ syscalls-ipc
 #io_floppy
 #nw_under_ns           need to study
 crashme
+mm
