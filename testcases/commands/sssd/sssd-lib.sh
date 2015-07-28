@@ -160,6 +160,9 @@ make_config_file()
 	echo -e "services = nss, pam\ndomains = LOCAL" >> $CONFIG_FILE
 	echo -e "\n[nss]\n\n[pam]\n" >> $CONFIG_FILE
 	echo -e "[domain/LOCAL]\nid_provider = local" >> $CONFIG_FILE
+	
+	chown root:root $CONFIG_FILE
+	chmod 0600 $CONFIG_FILE
 }
 
 . cmdlib.sh
