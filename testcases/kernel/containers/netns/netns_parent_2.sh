@@ -42,7 +42,9 @@ export TST_TOTAL
         debug "INFO: vnet2 = $vnet2 , vnet3 = $vnet3"
     fi
     ifconfig $vnet2 $IP3$mask up > /dev/null 2>&1
+	sleep 3
     route add -host $IP4 dev $vnet2
+	sleep 3
     echo 1 > /proc/sys/net/ipv4/conf/$vnet2/proxy_arp
 
     pid=$(tst_timeout "cat /tmp/FIFO4" $NETNS_TIMEOUT)
@@ -51,6 +53,7 @@ export TST_TOTAL
     fi
     debug "INFO: The pid of CHILD2 is $pid"
     ip link set $vnet3 netns $pid
+	sleep 3
     tst_timeout "echo $vnet3 > /tmp/FIFO3" $NETNS_TIMEOUT
     if [ $? -ne 0 ]; then
         tst_brkm TBROK "timeout reached!"

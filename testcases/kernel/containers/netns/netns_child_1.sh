@@ -47,8 +47,10 @@ status=0
 
     # By now network is working
     ifconfig $vnet1 $IP2$mask up > /dev/null 2>&1
+	sleep 3
     ifconfig lo up
-
+    sleep 3
+	
     # Creating ssh session
     /usr/sbin/sshd -p $PORT
     if [ $? ]; then

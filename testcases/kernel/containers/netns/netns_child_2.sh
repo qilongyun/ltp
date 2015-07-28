@@ -46,7 +46,9 @@ status=0
 
     # By now networking is working
     ifconfig $vnet2 $IP4$mask up 2> /dev/null
+	sleep 3
     ifconfig lo up
+	sleep 3
 
     # Creating ssh session
     /usr/sbin/sshd -p $PORT2
