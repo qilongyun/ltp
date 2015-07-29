@@ -241,15 +241,6 @@ main()
                 ALT_DIR_OUT=1 ;;
             esac ;;
 
-        T)
-            case $OPTARG in
-            /*)
-                TCONFCMDFILE="-T $OPTARG" ;;
-            *)
-                TCONFCMDFILE="-T $LTPROOT/output/$OPTARG"
-                ALT_DIR_OUT=1 ;;
-            esac ;;
-
         d)  # convert the user path to absolute path.
             export TMPBASE=$(readlink -f ${OPTARG}) ;;
 
@@ -937,7 +928,7 @@ main()
            fi
            if [ -e /usr/bin/mutt ] ; then                          ## This is a better mail client than others
               echo "Starting mailing reports to: $EMAIL_TO, file: ./$TAR_FILE_NAME.gz"
-              mutt -a ./$TAR_FILE_NAME.gz -s "LTP Reports on $test_start_time" $EMAIL_TO < /dev/null
+              mutt -a ./$TAR_FILE_NAME.gz -s "LTP Reports on $test_start_time" -- $EMAIL_TO < /dev/null
               if [ $? -eq 0 ]; then
                  echo "Reports Successfully mailed to: $EMAIL_TO"
               else

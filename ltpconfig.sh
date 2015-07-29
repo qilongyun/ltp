@@ -32,6 +32,7 @@
 	yum install vsftpd -y
 	yum install sssd-tools -y
 	yum install nscd -y
+	yum install mutt -y
 	
 	#安装网络相关包
 	yum install xinetd -y
