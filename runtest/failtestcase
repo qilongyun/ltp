@@ -44,8 +44,6 @@
 ##===========================================
 #
 ##syscalls
-##bug#44
-#fanotify06 fanotify06   
 ##bug#45
 #perf_event_open01 perf_event_open01
 ##bug#63

@@ -53,12 +53,20 @@ char *TCID = "fanotify06";
 
 static void setup(void);
 static void cleanup(void);
-
+/*
 unsigned int fanotify_prio[] = {
 	FAN_CLASS_PRE_CONTENT,
 	FAN_CLASS_CONTENT,
 	FAN_CLASS_NOTIF
 };
+*/
+
+unsigned int fanotify_prio[] = {
+	FAN_CLASS_NOTIF,
+	FAN_CLASS_CONTENT,
+	FAN_CLASS_PRE_CONTENT	
+};
+
 #define FANOTIFY_PRIORITIES ARRAY_SIZE(fanotify_prio)
 
 #define GROUPS_PER_PRIO 3
