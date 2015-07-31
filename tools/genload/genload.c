@@ -561,8 +561,10 @@ int hogio(long long forks)
 			usleep(backoff);
 
 			while (1)
+				{
 				sync();
-
+				sleep(10);
+				}
 			/* This case never falls through; alarm signal can cause exit.  */
 		case -1:	/* error */
 			if (ignore) {
@@ -642,7 +644,13 @@ int hogvm(long long forks, long long chunks, long long bytes)
 			usleep(backoff);
 
 			while (1) {
+
+				sleep(10);
 				ptr = (char **)malloc(chunks * 2);
+				if(ptr==NULL)
+			    {
+					continue;
+				}
 				for (j = 0; chunks == 0 || j < chunks; j++) {
 					if ((ptr[j] =
 					     (char *)malloc(bytes *
@@ -671,6 +679,8 @@ int hogvm(long long forks, long long chunks, long long bytes)
 					while (1)
 						sleep(1024);
 				}
+				sleep(10);
+
 				if (retval == 0) {
 					dbg(stdout,
 					    "hogvm worker freeing memory and starting over\n");
@@ -802,7 +812,7 @@ int hoghdd(long long forks, int clean, long long files, long long bytes)
 							exit(1);
 						}
 					}
-
+					sleep(10);
 					dbg(stdout, "slow writing to %s\n",
 					    name);
 					for (; bytes == 0 || j < bytes - 1; j++) {

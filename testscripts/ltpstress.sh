@@ -42,17 +42,18 @@ hours=24
 PROC_NUM=0
 leftover_memsize=0
 duration=86400
-datafile="/tmp/ltpstress.data"
-iofile="/tmp/ltpstress.iodata"
-logfile="/tmp/ltpstress.log"
+datafile="/tmp/ltpstress.$$.data"
+iofile="/tmp/ltpstress.$$.iodata"
+logfile="/tmp/ltpstress.$$.log"
 interval=10
-Sar=0
+Sar=1
 Top=0
 Iostat=0
-LOGGING=0
-PRETTY_PRT=""
+LOGGING=1
+PRETTY_PRT=" -p "
 QUIET_MODE=""
 NO_NETWORK=0
+DRY_RUN=""
 
 usage()
 {
@@ -77,6 +78,7 @@ usage()
                     to run correctly. If DEVICE is not set, a loop device is
                     created and used automatically.
     -B LTP_DEV_FS_TYPE The file system of DEVICE.
+	-D              make genload dry run.
 
 	example: ${0##*/} -d /tmp/sardata -l /tmp/ltplog.$$ -m 128 -t 24 -S
 	END
@@ -85,20 +87,22 @@ exit
 
 check_memsize()
 {
-  while [ $memsize -gt 1048576 ]   #if greater than 1GB
+  calMemSize=$memsize
+  while [ $calMemSize -gt 1048576 ]   #if greater than 1GB
   do
     PROC_NUM=$(( PROC_NUM + 1 ))
-    memsize=$(( $memsize - 1048576 ))
+    calMemSize=$(( $calMemSize - 1048576 ))
   done
-  leftover_memsize=$memsize
+  leftover_memsize=$calMemSize
 }
 
-while getopts d:hi:I:l:STt:m:npqx:b:B:\? arg
+while getopts d:hi:I:l:STt:m:npDqx:b:B:\? arg
 do  case $arg in
 
 	d)	datafile="$OPTARG";;
+	D)  DRY_RUN="--dry-run";;
 
-        h)      echo "Help info:"
+    h)  echo "Help info:"
 		usage;;
 
 	i)	interval=$OPTARG;;
@@ -106,10 +110,10 @@ do  case $arg in
 	I)	Iostat=1
 		iofile=$OPTARG;;
 
-        l)      logfile=$OPTARG
+    l)  logfile=$OPTARG
 		LOGGING=1;;
 
-        m)	memsize=$(($OPTARG * 1024))
+    m)	memsize=$(($OPTARG * 1024))
 		check_memsize;;
 
 	n)	NO_NETWORK=1;;
@@ -118,7 +122,7 @@ do  case $arg in
 
 	q)	QUIET_MODE=" -q ";;
 
-        S)      if [ $Top -eq 0 ]; then
+    S)      if [ $Top -eq 0 ]; then
                   Sar=1
                 else
                   echo "Cannot specify -S and -T...exiting"
@@ -252,10 +256,18 @@ if [ $memsize -eq 0 ]; then
   TESTSWAP=$(($TOTALSWAP / 2))
   if [ $TESTSWAP -eq 0 ]; then
        #if there is no swap in the system, use only the free RAM
-       TESTMEM=$(free -m | grep Mem: | awk {'print $4'})
+       MAXTESTMEM=$(free -m | grep Mem: | awk {'print $4'})
   else
-       TESTMEM=$(($TESTSWAP + $TOTALRAM))
+       MAXTESTMEM=$(($TESTSWAP + $TOTALRAM))
   fi
+  
+  TMPRAM=$(($TOTALRAM * 125 /100)) 
+  if [ $TMPRAM -gt $MAXTESTMEM ]; then
+     TESTMEM=$MAXTESTMEM
+  else
+     TESTMEM=$TMPRAM
+  fi
+    
  #Convert to kilobytes
   memsize=$(($TESTMEM * 1024))
   check_memsize
@@ -264,11 +276,17 @@ fi
 # Set max processes to unlimited.
 ulimit -u unlimited
 
+CPUNUM=$(lscpu |sed -n 4p|awk '{print $2}')
+genload $DRY_RUN --hdd  20 2>&1 1>/dev/null &
+sleep 3
+genload $DRY_RUN --cpu $CPUNUM 2>&1 1>/dev/null &
+#genload $DRY_RUN --io  $CPUNUM 2>&1 1>/dev/null &
+
 if [ $PROC_NUM -gt 0 ];then
-  genload --vm $PROC_NUM --vm-bytes 1073741824 2>&1 1>/dev/null &
+  genload $DRY_RUN --vm $PROC_NUM --vm-bytes 1073741824 2>&1 1>/dev/null &
 fi
 if [ $leftover_memsize -gt 0 ];then
-  genload --vm 1 --vm-bytes $(($leftover_memsize * 1024)) 2>&1 1>/dev/null &
+  genload $DRY_RUN --vm 1 --vm-bytes $(($leftover_memsize * 1024)) 2>&1 1>/dev/null &
 fi
 
 if [ $NO_NETWORK -eq 0 ];then
@@ -306,12 +324,22 @@ ${LTPROOT}/bin/ltp-pan -e ${PRETTY_PRT} ${QUIET_MODE} -S -t ${hours}h -a stress1
 ${LTPROOT}/bin/ltp-pan -e ${PRETTY_PRT} ${QUIET_MODE} -S -t ${hours}h -a stress2 -n stress2 -l $logfile -f ${TMP}/stress.part2 -o $output2 &
 ${LTPROOT}/bin/ltp-pan -e ${PRETTY_PRT} ${QUIET_MODE} -S -t ${hours}h -a stress3 -n stress3 -l $logfile -f ${TMP}/stress.part3 -o $output3 &
 
-echo "Running LTP Stress for $hours hour(s) using $(($memsize/1024)) Mb"
+echo "Running LTP Stress for $hours hour(s) using $(($memsize/1024)) Mb  and  $CPUNUM CPU"
 echo ""
 echo "Test output recorded in:"
 echo "        $output1"
 echo "        $output2"
 echo "        $output3"
+echo "Test sarlog recorded in:"
+echo "        $datafile"
+echo "Test result recorded in:"
+echo "        $logfile"
+
+echo "********************************"
+echo "  use sar and  iostat watch os "
+echo "  sar -f  $datafile " 
+echo "  iostat -x 2 " 
+echo "********************************"
 
 # Sleep a little longer than duration to let ltp-pan "try" to gracefully end itself.
 sleep $(($duration + 10))
