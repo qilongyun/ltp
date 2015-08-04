@@ -51,7 +51,13 @@ then
 		export LDEMULATION="elf_i386"
 	fi
 #modify by qilongyun
-elif uname -a | grep -iq ppc
+elif uname -a | grep -iq ppc64le
+then
+	file $TCdat/f1.obj | grep 64-bit >/dev/null 2>&1
+	if [ $? -eq 0 ]; then
+		export LDEMULATION="elf64lppc"
+	fi
+elif uname -a | grep -iq ppc64
 then
 	file $TCdat/f1.obj | grep 64-bit >/dev/null 2>&1
 	if [ $? -eq 0 ]; then
