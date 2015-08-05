@@ -144,7 +144,7 @@ static void testfunc_protexec(void)
 	p = SAFE_MMAP(cleanup, 0, page_sz, PROT_READ | PROT_WRITE,
 		 MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
 
-	memcpy(p, exec_func, 20);
+	memcpy(p, exec_func, 40);
 
 	/* Change the protection to PROT_EXEC. */
 	TEST(mprotect(p, page_sz, PROT_EXEC));
