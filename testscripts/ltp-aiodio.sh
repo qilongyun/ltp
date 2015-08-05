@@ -42,6 +42,7 @@ usage()
         -o = optional partition allows some of the tests to utilize multiple filesystems to further stress AIO/DIO
         -e = test ex2 filesystem.
         -t = test ext3 filesystem
+        -s = test ext4 filesystem
         -j = test JFS filesystem
         -x = test XFS filesystem
                     or
@@ -60,13 +61,14 @@ usage()
 exit
 }
 
-while getopts :a:b:e:f:t:o:x:j: arg
+while getopts :a:b:e:f:t:s:o:x:j: arg
 do      case $arg in
 		f)	file1=$OPTARG;;
 		b)	part1=$OPTARG;;
 		o)	part2=$OPTARG;;
 		e)	ext2=$OPTARG;;
 		t)	ext3=$OPTARG;;
+		s)	ext4=$OPTARG;;
 		x)	xfs=$OPTARG;;
 		j)	jfs=$OPTARG;;
 		a)	allfs=$OPTARG;;
@@ -92,7 +94,8 @@ if [ -n "$allfs"  ]; then
   echo "testing ALL supported filesystems"
   ext2="1"
   ext3="1"
-  jfs="0"
+  ext4="1"
+  jfs=""
   xfs="1"
   echo "test run = $run0"
 fi
@@ -104,6 +107,11 @@ fi
 
 if [ -n "$ext3"  ]; then
   echo "** testing ext3 **"
+  run0=$(($run0+1))
+fi
+
+if [ -n "$ext4"  ]; then
+  echo "** testing ext4 **"
   run0=$(($run0+1))
 fi
 
@@ -180,7 +188,27 @@ elif [ $nextTest -eq 1 ]; then
   nextTest=$(($nextTest+1))
 fi
 
-if [ -n "$jfs" -a $nextTest -eq 2 ]; then
+if [ -n "$ext4" -a $nextTest -eq 2 ]; then
+  echo "***************************"
+  echo "* Testing ext4 filesystem *"
+  echo "***************************"
+  mkfs -t ext4 $part1
+  mount -t ext4 $part1 $TMP/aiodio
+  if [ "$runExtendedStress" -eq 1 -a -n "$jfs" ]; then
+    mkfs.jfs  $part2 <testscripts/yesenter.txt
+    mount -t jfs $part2 $TMP/aiodio2
+  elif [ "$runExtendedStress" -eq 1 -a -n "$xfs" ]; then
+    mkfs.xfs -f $part2
+    mount -t xfs $part2 $TMP/aiodio2
+  elif [ "$runExtendedStress" -eq 1 -a -n "$ext2" ]; then
+    mkfs -t ext2 $part2
+    mount -t ext2 $part2 $TMP/aiodio2
+  fi
+elif [ $nextTest -eq 2 ]; then
+  nextTest=$(($nextTest+1))
+fi
+
+if [ -n "$jfs" -a $nextTest -eq 3 ]; then
   echo "**************************"
   echo "* Testing jfs filesystem *"
   echo "**************************"
@@ -196,11 +224,11 @@ if [ -n "$jfs" -a $nextTest -eq 2 ]; then
     mkfs -t ext2 $part2
     mount -t ext2 $part2 $TMP/aiodio2
   fi
-elif [ $nextTest -eq 2 ]; then
+elif [ $nextTest -eq 3 ]; then
   nextTest=$(($nextTest+1))
 fi
 
-if [ -n "$xfs" -a $nextTest -eq 3 ]; then
+if [ -n "$xfs" -a $nextTest -eq 4 ]; then
   echo "**************************"
   echo "* Testing xfs filesystem *"
   echo "**************************"
@@ -216,7 +244,7 @@ if [ -n "$xfs" -a $nextTest -eq 3 ]; then
     mkfs.jfs  $part2 <testscripts/yesenter.txt
     mount -t jfs $part2 $TMP/aiodio2
   fi
-elif [ $nextTest -eq 3 ]; then
+elif [ $nextTest -eq 4 ]; then
   nextTest=$(($nextTest+1))
 fi
 
