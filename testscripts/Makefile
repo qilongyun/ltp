@@ -28,7 +28,7 @@ INSTALL_DIR		:= testscripts
 
 INSTALL_MODE		:= 00755
 
-INSTALL_TARGETS		:= *.sh
+INSTALL_TARGETS		:= *.sh yesenter.txt
 
 MAKE_TARGETS		:=
 
