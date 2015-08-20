@@ -19,7 +19,7 @@ connectors
 admin_tools
 timers
 power_management_tests_exclusive
-#numa               bug#60 system is not support
+numa               
 hugetlb            
 commands
 hyperthreading
