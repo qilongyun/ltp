@@ -34,6 +34,7 @@
 	yum install nscd -y
 	yum install mutt -y
 	yum install numactl-devel -y
+	yum install mkisofs -y
 	
 	#安装网络相关包
 	yum install xinetd -y
