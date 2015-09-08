@@ -30,17 +30,10 @@
  *  descriptors to 3 and expects success.
  */
 
-#include <sys/syscall.h>
-#include <errno.h>
-#include <linux/random.h>
 #include <sys/resource.h>
+#include "lapi/getrandom.h"
+#include "linux_syscall_numbers.h"
 #include "test.h"
-
-/* current use kernel ver is 3.10.0  this testcase is not support */
-#define SYS_getrandom   1
-#define GRND_RANDOM     1
-#define GRND_NONBLOCK   2
-
 
 char *TCID = "getrandom04";
 int TST_TOTAL = 1;
@@ -59,11 +52,7 @@ int main(int ac, char **av)
 	if (r == -1)
 		tst_brkm(TBROK | TTERRNO, NULL, "setrlimit failed");
 
-	TEST(syscall(SYS_getrandom, buf, 100, 0));
-	if (TEST_RETURN == -1 && TEST_ERRNO == ENOSYS)
-		tst_brkm(TCONF, NULL,
-			"This test needs kernel 3.17 or newer");
-
+	TEST(ltp_syscall(__NR_getrandom, buf, 100, 0));
 	if (TEST_RETURN == -1)
 		tst_resm(TFAIL | TTERRNO, "getrandom failed");
 	else

@@ -40,7 +40,11 @@
 char *TCID = "mmap15";
 int TST_TOTAL = 1;
 
-#define HIGH_ADDR	(void *)(1L << 53)
+#ifdef __ia64__
+# define HIGH_ADDR (void *)(0xa000000000000000UL)
+#else
+# define HIGH_ADDR (void *)(1L << 53)
+#endif
 
 static long map_sz;
 
@@ -94,7 +98,7 @@ int main(int ac, char **av)
 
 static void setup(void)
 {
-	tst_require_root(NULL);
+	tst_require_root();
 
 	tst_tmpdir();
 

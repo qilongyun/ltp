@@ -30,17 +30,9 @@
  *  number of bytes required and expects success.
  */
 
-#include <errno.h>
-#include <linux/random.h>
-#include <sys/syscall.h>
+#include "lapi/getrandom.h"
+#include "linux_syscall_numbers.h"
 #include "test.h"
-
-/* current use kernel ver is 3.10.0  this testcase is not support */
-#define SYS_getrandom   1
-#define GRND_RANDOM     1
-#define GRND_NONBLOCK   2
-
-
 
 #define MAX_SIZE 256
 
@@ -60,12 +52,7 @@ int main(int ac, char **av)
 		tst_count = 0;
 		for (i = 0; i < TST_TOTAL; i++) {
 			size = random() % MAX_SIZE;
-			TEST(syscall(SYS_getrandom, buf, size, 0));
-
-			if (TEST_RETURN == -1 && TEST_ERRNO == ENOSYS)
-				tst_brkm(TCONF, NULL,
-					"This test needs kernel 3.17 or newer");
-
+			TEST(ltp_syscall(__NR_getrandom, buf, size, 0));
 			if (TEST_RETURN != size)
 				tst_resm(TFAIL | TTERRNO, "getrandom failed");
 			else

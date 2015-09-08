@@ -669,7 +669,7 @@ static void check_opt(const char *name, char *arg, int *val, int lim)
 		if (sscanf(arg, "%i", val) != 1)
 			tst_brkm(TBROK, NULL, "-%s option arg is not a number",
 				 name);
-		if (clients_num < lim)
+		if (*val < lim)
 			tst_brkm(TBROK, NULL, "-%s option arg is less than %d",
 				name, lim);
 	}
@@ -681,7 +681,7 @@ static void check_opt_l(const char *name, char *arg, long *val, long lim)
 		if (sscanf(arg, "%ld", val) != 1)
 			tst_brkm(TBROK, NULL, "-%s option arg is not a number",
 				 name);
-		if (clients_num < lim)
+		if (*val < lim)
 			tst_brkm(TBROK, NULL, "-%s option arg is less than %ld",
 				name, lim);
 	}
@@ -704,7 +704,7 @@ static void setup(int argc, char *argv[])
 	check_opt_l("T", Targ, &wait_timeout, 0L);
 
 	if (!force_run)
-		tst_require_root(NULL);
+		tst_require_root();
 
 	if (!force_run && tst_kvercmp(3, 7, 0) < 0) {
 		tst_brkm(TCONF, NULL,

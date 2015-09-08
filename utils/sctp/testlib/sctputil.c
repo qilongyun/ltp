@@ -371,8 +371,8 @@ int test_peer_addr(int sk, sctp_assoc_t asoc, sockaddr_storage_t *peers, int cou
 	socklen_t addrs_size = 0;
 	void *addrbuf;
 	char found[count];
-    memset(found, 0, count);
-	
+	memset(found, 0, count);
+
 	error = sctp_getpaddrs(sk, asoc, &addrs);
 	if (-1 == error) {
 		tst_brkm(TBROK, tst_exit, "sctp_getpaddrs: %s", strerror(errno));

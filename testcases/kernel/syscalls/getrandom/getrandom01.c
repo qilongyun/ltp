@@ -26,23 +26,14 @@
  *
  */
 
-#include <sys/syscall.h>
-#include <errno.h>
-#include <linux/random.h>
+#include "lapi/getrandom.h"
+#include "linux_syscall_numbers.h"
 #include "test.h"
 
-
-/* current use kernel ver is 3.10.0  this testcase is not support */
-#define SYS_getrandom   1
-#define GRND_RANDOM     1
-#define GRND_NONBLOCK   2
-
-
-
-static int modes[] = {0, GRND_RANDOM, GRND_NONBLOCK,
-						GRND_RANDOM | GRND_NONBLOCK};
-
 char *TCID = "getrandom01";
+static int modes[] = { 0, GRND_RANDOM, GRND_NONBLOCK,
+		       GRND_RANDOM | GRND_NONBLOCK };
+
 int TST_TOTAL = ARRAY_SIZE(modes);
 
 int main(int ac, char **av)
@@ -56,17 +47,13 @@ int main(int ac, char **av)
 		tst_count = 0;
 
 		for (i = 0; i < TST_TOTAL; i++) {
-			TEST(syscall(SYS_getrandom, NULL, 100, modes[i]));
-
-			if (TEST_RETURN == -1 && TEST_ERRNO == ENOSYS)
-				tst_brkm(TCONF, NULL,
-						"This test needs kernel 3.17 or newer");
-
-			if (TEST_RETURN == -1)
+			TEST(ltp_syscall(__NR_getrandom, NULL, 100, modes[i]));
+			if (TEST_RETURN == -1) {
 				tst_resm(TPASS, "getrandom returned %ld",
 						TEST_RETURN);
-			else
+			} else {
 				tst_resm(TFAIL | TTERRNO, "getrandom failed");
+			}
 		}
 	}
 	tst_exit();

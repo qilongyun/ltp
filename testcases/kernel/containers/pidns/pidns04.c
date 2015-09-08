@@ -65,7 +65,7 @@
 #define CHILD_PID       1
 #define PARENT_PID      0
 
-char *TCID = "pid_namespace4";
+char *TCID = "pidns04";
 int TST_TOTAL = 1;
 int fd[2];
 
@@ -102,7 +102,7 @@ static int child_fn1(void *ttype)
 
 static void setup(void)
 {
-	tst_require_root(NULL);
+	tst_require_root();
 	check_newpid();
 }
 

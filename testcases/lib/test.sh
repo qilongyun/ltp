@@ -134,6 +134,33 @@ tst_check_cmds()
 	done
 }
 
+# tst_retry "command" [times]
+# try run command for specified times, default is 3.
+# Function returns 0 if succeed in RETRIES times or the last retcode the cmd
+# returned
+tst_retry()
+{
+	local cmd="$1"
+	local RETRIES=${2:-"3"}
+	local i=$RETRIES
+
+	while [ $i -gt 0 ]; do
+		eval "$cmd"
+		ret=$?
+		if [ $ret -eq 0 ]; then
+			break
+		fi
+		i=$((i-1))
+		sleep 1
+	done
+
+	if [ $ret -ne 0 ]; then
+		tst_resm TINFO "Failed to execute '$cmd' after $RETRIES retries"
+	fi
+
+	return $ret
+}
+
 # tst_timeout "command arg1 arg2 ..." timeout
 # Runs command for specified timeout (in seconds).
 # Function returns retcode of command or 1 if arguments are invalid.
@@ -236,6 +263,32 @@ tst_release_device()
 			tst_resm TWARN "'losetup -d ${TST_DEVICE}' failed"
 		fi
 	fi
+}
+
+tst_mkfs()
+{
+	local fs_type=$1
+	local device=$2
+	local fs_opts=""
+
+	if [ $fs_type = "xfs" ]; then
+		tst_resm TINFO "Appending '-f' flag to mkfs.$fs_type"
+		fs_opts="-f"
+	fi
+
+	if [ $fs_type = "btrfs" ]; then
+		mkfs.btrfs 2>&1 | grep -q '\\-f' >/dev/null
+		if [ $? -eq 0 ]; then
+			tst_resm TINFO "Appending '-f' flag to mkfs.$fs_type"
+			fs_opts="-f"
+		fi
+	fi
+
+	shift 2
+	fs_opts="$fs_opts $@"
+	tst_resm TINFO "Formatting $device with $fs_type extra opts='$fs_opts'"
+
+	ROD_SILENT mkfs.$fs_type $fs_opts $device
 }
 
 # Check that test name is set

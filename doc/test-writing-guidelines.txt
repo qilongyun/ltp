@@ -455,7 +455,7 @@ The 'ttype' can be combined bitwise with 'TERRNO' or 'TTERRNO' to print
 
 [source,c]
 -------------------------------------------------------------------------------
-void tst_require_root(void (*cleanup)(void));
+void tst_require_root(void);
 -------------------------------------------------------------------------------
 
 Abort the test if it's not executed with root privileges. If needed this should
@@ -644,6 +644,9 @@ void tst_record_childstatus(void (*cleanup)(void), pid_t child);
 
 This function does a 'waitpid()' on child process and record child process's
 return value into the overall test result.
+
+NOTE: As 'waitpid()' is used you may pass '-1' as the child pid if you
+      want to wait for any of the process children.
 
 2.2.8 Fork() and Parent-child synchronization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1195,6 +1198,9 @@ Following functions similar to the LTP C interface are available.
 * tst_tmpdir()
 * tst_rmdir()
 * tst_fs_has_free()
+* tst_mkfs()
+* tst_acquire_device()
+* tst_release_device()
 
 There is one more function called 'tst_check_cmds()' that gets unspecified
 number of parameters and asserts that each parameter is a name of an
@@ -1244,10 +1250,33 @@ fi
 ...
 -------------------------------------------------------------------------------
 
-The tst_fs_has_free shell interface returns 0 if the specified free space is
+The 'tst_fs_has_free' shell interface returns 0 if the specified free space is
 satisfied, 1 if not, and 2 on error.
 
 The second argument supports suffixes kB, MB and GB, the default unit is Byte.
+
+.tst_retry
+[source,sh]
+-------------------------------------------------------------------------------
+#!/bin/sh
+
+...
+
+# Retry ping command three times
+tst_retry "ping -c 1 127.0.0.1"
+
+if [ $? -ne 0 ]; then
+	tst_resm TFAIL "Failed to ping 127.0.0.1"
+else
+	tst_resm TPASS "Successfully pinged 127.0.0.1"
+fi
+
+...
+-------------------------------------------------------------------------------
+
+The 'tst_retry' function allows you to retry a command after waiting small
+amount of time until it succeeds or until given amount of retries has been
+reached (default is three attempts).
 
 2.3.3 Cleanup
 ^^^^^^^^^^^^^

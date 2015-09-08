@@ -388,10 +388,10 @@ getppid02 getppid02
 getpriority01 getpriority01
 getpriority02 getpriority02
 
-#getrandom01 getrandom01   This test needs kernel 3.17 at least
-#getrandom02 getrandom02   This test needs kernel 3.17 at least
-#getrandom03 getrandom03   This test needs kernel 3.17 at least
-#getrandom04 getrandom04   This test needs kernel 3.17 at least
+getrandom01 getrandom01   
+getrandom02 getrandom02   
+getrandom03 getrandom03   
+getrandom04 getrandom04   
 
 getresgid01 getresgid01
 getresgid02 getresgid02
@@ -449,13 +449,14 @@ inotify02 inotify02
 inotify03 inotify03
 inotify04 inotify04
 inotify05 inotify05
+inotify06 inotify06
 
 fanotify01 fanotify01
 fanotify02 fanotify02
 fanotify03 fanotify03
 fanotify04 fanotify04
 fanotify05 fanotify05
-fanotify06 fanotify06 
+fanotify06 fanotify06
 
 ioperm01 ioperm01
 ioperm02 ioperm02
@@ -662,6 +663,7 @@ msgrcv04 msgrcv04
 msgrcv05 msgrcv05
 msgrcv06 msgrcv06
 msgrcv07 msgrcv07
+msgrcv08 msgrcv08
 
 msgsnd01 msgsnd01
 msgsnd02 msgsnd02
@@ -711,6 +713,7 @@ open09 open09
 open10 open10
 open11 open11
 open12 open12
+open13 open13
 
 #openat test cases
 openat01 openat01
@@ -1314,6 +1317,10 @@ umount01 umount01
 umount02 umount02
 umount03 umount03
 
+umount2_01 umount2_01
+umount2_02 umount2_02
+umount2_03 umount2_03
+
 ustat01 ustat01
 ustat02 ustat02
 
@@ -1376,7 +1383,7 @@ writev04 writev04
 writev05 writev05
 writev06 writev06
 
-perf_event_open01 perf_event_open01    
+perf_event_open01 perf_event_open01
 perf_event_open02 perf_event_open02
 
 futex_wait01 futex_wait01
@@ -1387,5 +1394,6 @@ futex_wait05 futex_wait05
 futex_wake01 futex_wake01
 futex_wake02 futex_wake02
 futex_wake03 futex_wake03
+futex_wake04 futex_wake04
 futex_wait_bitset01 futex_wait_bitset01
 futex_wait_bitset02 futex_wait_bitset02

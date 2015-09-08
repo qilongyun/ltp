@@ -83,6 +83,8 @@ until [ $LOOP_COUNT -gt $HOTPLUG05_LOOPS ]; do
 	# Start up SAR and give it a couple cycles to run
 	sar 1 &>/dev/null &
 	sleep 2
+	# "sar 1 0" is supported before 'sysstat-8.1.4(include sar)',
+	# after that use "sar 1" instead of. Use 'ps -C sar' to check.
 	if ps -C sar &>/dev/null; then
 		pkill sar
 		sar -P ALL 1 > $TMP/log_$$ &

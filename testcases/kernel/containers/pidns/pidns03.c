@@ -37,7 +37,7 @@
 #include "pidns_helper.h"
 
 #define PROCDIR "proc"
-char *TCID	= "pidns03";
+char *TCID = "pidns03";
 int TST_TOTAL	= 1;
 
 
@@ -48,7 +48,7 @@ static void cleanup(void)
 
 static void setup(void)
 {
-	tst_require_root(NULL);
+	tst_require_root();
 	check_newpid();
 	tst_tmpdir();
 	SAFE_MKDIR(cleanup, PROCDIR, 0555);
