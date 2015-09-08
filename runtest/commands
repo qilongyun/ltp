@@ -8,7 +8,7 @@ file export TCdat=$LTPROOT/testcases/bin; file_test.sh
 tar export TCdat=$LTPROOT/testcases/bin; tar_tests.sh
 cron export TCdat=$LTPROOT/testcases/bin; cron_tests.sh
 logrotate export TCdat=$LTPROOT/testcases/bin; logrotate_tests.sh
-#mail export TCdat=$LTPROOT/testcases/bin; mail_tests.sh           bug#46
+mail export TCdat=$LTPROOT/testcases/bin; mail_tests.sh           
 cpio export TCdat=$LTPROOT/testcases/bin; cpio_tests.sh
 unzip01 unzip_tests.sh $LTPROOT/testcases/data/tst_unzip_file.zip
 gzip01 gzip_tests.sh

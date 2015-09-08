@@ -43,13 +43,6 @@
 ##            BUG
 ##===========================================
 #
-##syscalls
-##bug#45
-#perf_event_open01 perf_event_open01
-#
-##commands
-##bug#46
-#mail export TCdat=$LTPROOT/testcases/bin; mail_tests.sh
 #
 ##securebits            
 ##bug#70  need to solve
