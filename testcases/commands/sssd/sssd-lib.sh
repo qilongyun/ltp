@@ -114,7 +114,7 @@ setup()
 				$NSS_CONFIG_FILE
 		fi
 	else
-		tst_brkm TBROK NULL "$CONFIG_FILE not found!"
+		tst_resm TCONF "$CONFIG_FILE not found!"
 	fi
 }
 
