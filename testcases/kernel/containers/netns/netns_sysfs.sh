@@ -29,7 +29,9 @@ TST_TOTAL=2
 cleanup()
 {
 	tst_rmdir
-	ip link del dummy0 2>/dev/null
+	ns_exec $NS_HANDLE ip link del dummy0
+    umount none
+    umount none
 	kill -9 $NS_HANDLE 2>/dev/null
 }
 
@@ -45,7 +47,7 @@ ls /sys/class/net >sysfs_before
 
 ns_exec $NS_HANDLE ip link add dummy0 type dummy || \
 	tst_brkm TBROK "failed to add a new dummy device"
-ns_exec $NS_HANDLE mount -t sysfs none /sys 2>/dev/null
+ns_exec $NS_HANDLE mount --make-rprivate  -t sysfs none /sys 2>/dev/null
 
 ns_exec $NS_HANDLE test -d /sys/class/net/dummy0
 if [ $? -eq 0 ]; then
@@ -53,6 +55,8 @@ if [ $? -eq 0 ]; then
 else
 	tst_resm TFAIL "sysfs in new namespace does not have dummy0 interface"
 fi
+
+mount --make-rprivate  -t sysfs none /sys 2>/dev/null
 
 ls /sys/class/net >sysfs_after
 diff sysfs_before sysfs_after
