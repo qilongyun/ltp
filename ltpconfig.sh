@@ -33,6 +33,7 @@
 	yum install sssd-tools -y
 	yum install nscd -y
 	yum install mutt -y
+	yum install numactl -y
 	yum install numactl-devel -y
 	yum install mkisofs -y
 	
