@@ -30,6 +30,7 @@ static int alloc_mem(long int length, int testcase)
 {
 	char *s;
 	long i, pagesz = getpagesize();
+	int loop = 10;
 
 	tst_resm(TINFO, "thread (%lx), allocating %ld bytes.",
 		(unsigned long) pthread_self(), length);
@@ -39,8 +40,15 @@ static int alloc_mem(long int length, int testcase)
 	if (s == MAP_FAILED)
 		return errno;
 
-	if (testcase == MLOCK && mlock(s, length) == -1)
-		return errno;
+	if (testcase == MLOCK) {
+		while (mlock(s, length) == -1 && loop > 0) {
+			if (EAGAIN != errno)
+				return errno;
+			usleep(300000);
+			loop--;
+		}
+	}
+
 #ifdef HAVE_MADV_MERGEABLE
 	if (testcase == KSM && madvise(s, length, MADV_MERGEABLE) == -1)
 		return errno;
@@ -1104,4 +1112,36 @@ void update_shm_size(size_t * shm_size)
 		tst_resm(TINFO, "Set shm_size to shmmax: %ld", shmmax);
 		*shm_size = shmmax;
 	}
+}
+
+int range_is_mapped(void (*cleanup_fn) (void), unsigned long low, unsigned long high)
+{
+	FILE *fp;
+
+	fp = fopen("/proc/self/maps", "r");
+	if (fp == NULL)
+		tst_brkm(TBROK | TERRNO, cleanup_fn, "Failed to open /proc/self/maps.");
+
+	while (!feof(fp)) {
+		unsigned long start, end;
+		int ret;
+
+		ret = fscanf(fp, "%lx-%lx %*[^\n]\n", &start, &end);
+		if (ret != 2) {
+			fclose(fp);
+			tst_brkm(TBROK | TERRNO, cleanup_fn, "Couldn't parse /proc/self/maps line.");
+		}
+
+		if ((start >= low) && (start < high)) {
+			fclose(fp);
+			return 1;
+		}
+		if ((end >= low) && (end < high)) {
+			fclose(fp);
+			return 1;
+		}
+	}
+
+	fclose(fp);
+	return 0;
 }

@@ -283,10 +283,10 @@ genload $DRY_RUN --cpu $CPUNUM 2>&1 1>/dev/null &
 #genload $DRY_RUN --io  $CPUNUM 2>&1 1>/dev/null &
 
 if [ $PROC_NUM -gt 0 ];then
-  genload $DRY_RUN --vm $PROC_NUM --vm-bytes 1073741824 2>&1 1>/dev/null &
+  genload $DRY_RUN --vm $PROC_NUM --vm-bytes 1073741824 >/dev/null 2>&1 &
 fi
 if [ $leftover_memsize -gt 0 ];then
-  genload $DRY_RUN --vm 1 --vm-bytes $(($leftover_memsize * 1024)) 2>&1 1>/dev/null &
+  genload $DRY_RUN --vm 1 --vm-bytes $(($leftover_memsize * 1024)) >/dev/null 2>&1 &
 fi
 
 if [ $NO_NETWORK -eq 0 ];then

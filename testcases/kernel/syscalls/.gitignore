@@ -221,6 +221,10 @@
 /fcntl/fcntl30_64
 /fcntl/fcntl31
 /fcntl/fcntl31_64
+/fcntl/fcntl32
+/fcntl/fcntl32_64
+/fcntl/fcntl33
+/fcntl/fcntl33_64
 /fdatasync/fdatasync01
 /fdatasync/fdatasync02
 /flock/flock01
@@ -440,6 +444,8 @@
 /ipc/shmget/shmget04
 /ipc/shmget/shmget05
 /keyctl/keyctl01
+/kcmp/kcmp01
+/kcmp/kcmp02
 /kill/kill01
 /kill/kill02
 /kill/kill03
@@ -713,6 +719,8 @@
 /rename/rename13
 /rename/rename14
 /renameat/renameat01
+/renameat2/renameat201
+/renameat2/renameat202
 /rmdir/rmdir01
 /rmdir/rmdir02
 /rmdir/rmdir03
@@ -733,6 +741,8 @@
 /sched_get_priority_min/sched_get_priority_min01
 /sched_get_priority_min/sched_get_priority_min02
 /sched_getaffinity/sched_getaffinity01
+/sched_getattr/sched_getattr01
+/sched_getattr/sched_getattr02
 /sched_getparam/sched_getparam01
 /sched_getparam/sched_getparam02
 /sched_getparam/sched_getparam03

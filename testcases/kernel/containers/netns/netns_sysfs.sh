@@ -23,20 +23,25 @@
 #==============================================================================
 
 TCID="netns_sysfs"
-TST_TOTAL=2
+TST_TOTAL=3
+NS_TYPE="net,mnt"
+DUMMYDEV="dummy_test0"
 . test.sh
+
+setns_check
+if [ $? -eq 32 ]; then
+	tst_brkm TCONF "setns not supported"
+fi
 
 cleanup()
 {
 	tst_rmdir
-	ns_exec $NS_HANDLE ip link del dummy0
-    umount none
-    umount none
+	ip link del $DUMMYDEV 2>/dev/null
 	kill -9 $NS_HANDLE 2>/dev/null
 }
 
 tst_tmpdir
-NS_HANDLE=$(ns_create net mnt)
+NS_HANDLE=$(ns_create $NS_TYPE)
 if [ $? -eq 1 ]; then
 	tst_resm TINFO "$NS_HANDLE"
 	tst_brkm TBROK "unable to create a new network namespace"
@@ -44,19 +49,39 @@ fi
 TST_CLEANUP=cleanup
 ls /sys/class/net >sysfs_before
 
-
-ns_exec $NS_HANDLE ip link add dummy0 type dummy || \
+ns_exec $NS_HANDLE $NS_TYPE mount --make-rprivate /sys
+ns_exec $NS_HANDLE $NS_TYPE ip link add $DUMMYDEV type dummy || \
 	tst_brkm TBROK "failed to add a new dummy device"
-ns_exec $NS_HANDLE mount --make-rprivate  -t sysfs none /sys 2>/dev/null
+ns_exec $NS_HANDLE $NS_TYPE mount -t sysfs none /sys 2>/dev/null
 
-ns_exec $NS_HANDLE test -d /sys/class/net/dummy0
+
+# TEST CASE #1
+ns_exec $NS_HANDLE $NS_TYPE test -d /sys/class/net/$DUMMYDEV
 if [ $? -eq 0 ]; then
-	tst_resm TPASS "sysfs in new namespace has dummy0 interface"
+	tst_resm TPASS "sysfs in new namespace has $DUMMYDEV interface"
 else
-	tst_resm TFAIL "sysfs in new namespace does not have dummy0 interface"
+	tst_resm TFAIL "sysfs in new namespace does not have $DUMMYDEV interface"
 fi
 
-mount --make-rprivate  -t sysfs none /sys 2>/dev/null
+
+# TEST CASE #2
+res=0
+for d in $(ns_exec $NS_HANDLE $NS_TYPE ls /sys/class/net/); do
+	case "$d" in
+		lo|$DUMMYDEV)
+			;;
+		*)
+			tst_resm TINFO "sysfs in new namespace should not contain: $d"
+			res=1
+			;;
+	esac
+done
+if [ $res -eq 0 ]; then
+	tst_resm TPASS "sysfs in new namespace has only lo and $DUMMYDEV interfaces"
+else
+	tst_resm TFAIL "sysfs in new namespace has more than lo and $DUMMYDEV interfaces"
+fi
+
 
 ls /sys/class/net >sysfs_after
 diff sysfs_before sysfs_after
@@ -65,5 +90,6 @@ if [ $? -eq 0 ]; then
 else
 	tst_resm TFAIL "sysfs affected by a separate namespace"
 fi
+
 
 tst_exit
