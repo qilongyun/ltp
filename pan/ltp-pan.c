@@ -345,10 +345,10 @@ int main(int argc, char **argv)
 			fprintf(logfile, "Test Start Time: %s\n", s);
 			fprintf(logfile,
 				"-----------------------------------------\n");
-			fprintf(logfile, "%-30.20s %-10.10s %-10.10s\n",
-				"Testcase", "Result", "Exit Value");
-			fprintf(logfile, "%-30.20s %-10.10s %-10.10s\n",
-				"--------", "------", "------------");
+			fprintf(logfile, "%-30.20s %-10.10s %-15.15s %-30.30s\n",
+				"Testcase", "Result", "Exit Value","Cmdline");
+			fprintf(logfile, "%-30.20s %-10.10s %-15.15s %-30.30s\n",
+				"--------", "------", "------------","----------------");
 		}
 		fflush(logfile);
 	}
@@ -820,10 +820,10 @@ check_pids(struct tag_pgrp *running, int *num_active, int keep_active,
 						}
 
 						fprintf(logfile,
-							"%-30.30s %-10.10s %-5d\n",
+							"%-30.30s %-10.10s %-15d %-s\n",
 							running[i].cmd->name,
 							result_str,
-							w);
+							w,running[i].cmd->cmdline);
 					}
 
 					fflush(logfile);
@@ -1098,10 +1098,10 @@ run_child(struct coll_entry *colle, struct tag_pgrp *active, int quiet_mode,
 				if (termid != 0)
 					++ * failcnt;
 
-				fprintf(logfile, "%-30.30s %-10.10s %-5d\n",
+				fprintf(logfile, "%-30.30s %-10.10s %-15d %-s\n",
 					colle->name,
 					((termid != 0) ? "FAIL" : "PASS"),
-					termid);
+					termid,colle->cmdline);
 			}
 			fflush(logfile);
 		}
