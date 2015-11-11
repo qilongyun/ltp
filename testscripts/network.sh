@@ -21,8 +21,8 @@ export PASSWD=${PASSWD:-""}
 
 # Test Links
 # Set names for test interfaces, e.g. "eth0 eth1"
-export LHOST_IFACES=${LHOST_IFACES:-"eth0"}
-export RHOST_IFACES=${RHOST_IFACES:-"eth0"}
+export LHOST_IFACES=${LHOST_IFACES:-""}
+export RHOST_IFACES=${RHOST_IFACES:-""}
 
 # Set corresponding HW addresses, e.g. "00:00:00:00:00:01 00:00:00:00:00:02"
 export LHOST_HWADDRS=${LHOST_HWADDRS:-"$(tst_get_hwaddrs lhost)"}

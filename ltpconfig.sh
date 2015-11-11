@@ -2,8 +2,14 @@
 
 #设置 env 环境变量
 
+    #获取主机名
     RHOST=${RHOST:-$(hostname)}
 	
+    #获取网卡名
+	LocalIP4=$(ping -c1 $(hostname)|awk '{print $3}'|sed -n 1p |sed 's/(//g'|sed 's/)//g')
+	netdev_name=$(ifconfig|awk '/'$LocalIP4'/{print a}{a=$1}')
+	netdev_name=${netdev_name%?}    
+
 	needSetENV=0
 	
 	env|grep PASSWD || needSetENV=1
@@ -14,7 +20,8 @@
 	export RHOST=$RHOST
 	export PASSWD=123456	
 	export LANG=en_US.UTF-8
-	
+	export LHOST_IFACES=$netdev_name
+	export RHOST_IFACES=$netdev_name
 	EOF
 	
 	source /root/.bash_profile
@@ -164,13 +171,20 @@ $RHOST root
 	setenforce 0
 	
 	#启动服务
-	systemctl restart rpcbind	
-	systemctl restart nfs
+	systemctl stop rpcbind.target
+    systemctl stop rpcbind.socket
+    systemctl stop rpcbind.service
+	systemctl restart rpcbind.service
+	systemctl restart nfs-mountd.service
+	
 	systemctl restart rstatd
 	systemctl restart telnet.socket
 	systemctl restart xinetd.service
 	systemctl restart vsftpd.service
-		
+	
+	
+    
+	
 	
 	
 	echo "=============================================="
