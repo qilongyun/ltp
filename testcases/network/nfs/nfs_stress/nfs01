@@ -33,7 +33,7 @@ do_test()
 	ROD nfs01_open_files $NFILES
 
 	cd $LTPROOT
-	ROD umount $TST_TMPDIR
+	ROD umount -f $TST_TMPDIR
 	tst_resm TPASS "test finished successfully"
 }
 

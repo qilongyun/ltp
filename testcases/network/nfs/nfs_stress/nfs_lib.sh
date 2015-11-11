@@ -17,13 +17,22 @@
 nfs_setup()
 {
 	VERSION=${VERSION:=3}
-	NFILES=${NFILES:=1000}
+	NFILES=${NFILES:=50}
 	SOCKET_TYPE="${SOCKET_TYPE:=udp}${TST_IPV6}"
 	NFS_TYPE=${NFS_TYPE:=nfs}
+	LocalIP4=$(ping -c1 $(hostname)|awk '{print $3}'|sed -n 1p |sed 's/(//g'|sed 's/)//g')
+	LocalIP6=$(ping6 -c1 -n $(hostname)| sed -n 2p |awk '{print $4}' |sed 's/.$//')
+	if [ $TST_IPV6 ]; then
+	    ipaddr=$LocalIP6
+	else
+	    ipaddr=$LocalIP4
+	fi
 
 	tst_check_cmds mount exportfs
 
 	tst_tmpdir
+	
+	remote_tmpdir=$TST_TMPDIR"_remote"
 
 	# Check if current filesystem is NFS
 	if [ "$(stat -f . | grep "Type: nfs")" ]; then
@@ -34,25 +43,25 @@ nfs_setup()
 	tst_resm TINFO "NFILES: $NFILES, SOCKET_TYPE: $SOCKET_TYPE"
 
 	if [ "$NFS_TYPE" != "nfs4" ]; then
-		OPTS=${OPTS:="-o proto=$SOCKET_TYPE,vers=$VERSION "}
+		OPTS=${OPTS:="-o proto=$SOCKET_TYPE,vers=$VERSION,nolock "}
 	fi
 
-	tst_rhost_run -s -c "mkdir -p $TST_TMPDIR"
+	tst_rhost_run -s -c "mkdir -p $remote_tmpdir"
 
 	if [ $TST_IPV6 ]; then
-		REMOTE_DIR="[$(tst_ipaddr rhost)]:$TST_TMPDIR"
+		REMOTE_DIR="[$ipaddr]:$remote_tmpdir"
 	else
-		REMOTE_DIR="$(tst_ipaddr rhost):$TST_TMPDIR"
+		REMOTE_DIR="$ipaddr:$remote_tmpdir"
 	fi
 
 	if [ "$NFS_TYPE" = "nfs4" ]; then
-		tst_rhost_run -s -c "mkdir -p /export$TST_TMPDIR"
-		tst_rhost_run -s -c "mount --bind $TST_TMPDIR /export$TST_TMPDIR"
-		tst_rhost_run -s -c "exportfs -o no_root_squash,rw,nohide,\
-			insecure,no_subtree_check *:$TST_TMPDIR"
+		tst_rhost_run -s -c "mkdir -p /export$remote_tmpdir"
+		tst_rhost_run -s -c "mount --bind $remote_tmpdir /export$remote_tmpdir"
+		tst_rhost_run -s -c "/usr/sbin/exportfs -o no_root_squash,rw,nohide,\
+			insecure,no_subtree_check *:$remote_tmpdir"
 	else
-		tst_rhost_run -s -c "exportfs -i -o no_root_squash,rw \
-			*:$TST_TMPDIR"
+		tst_rhost_run -s -c "/usr/sbin/exportfs -i -o no_root_squash,rw \
+			*:$remote_tmpdir"
 	fi
 
 	tst_resm TINFO "Mounting NFS '$REMOTE_DIR' with options '$OPTS'"
@@ -66,6 +75,6 @@ nfs_cleanup()
 	cd $LTPROOT
 	grep -q "$TST_TMPDIR" /proc/mounts && umount $TST_TMPDIR
 
-	tst_rhost_run -c "exportfs -u *:$TST_TMPDIR"
-	tst_rhost_run -c "rm -rf $TST_TMPDIR"
+	tst_rhost_run -c "/usr/sbin/exportfs -u *:$remote_tmpdir"
+	tst_rhost_run -c "rm -rf $remote_tmpdir"
 }
