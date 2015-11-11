@@ -287,7 +287,7 @@ test01()
     sleep 1s
 
     # restart xinetd to re-start the services
-    restart_daemon xinetd > $LTPTMP/tst_xinetd.out 2>&1	
+    restart_daemon xinetd > $LTPTMP/tst_xinetd.out 2>&1
     RC=$?
     if [ $RC -ne 0 ]
     then
@@ -315,8 +315,7 @@ test01()
     # not terminated by the test gracefully.
     if [ $IPV6_ENABLED -eq 1 ]
     then
-        tst_retry "echo '' | $TELNET_COMM ::1 2>$LTPTMP/tst_xinetd.out.ipv6 \
-            1>/dev/null"
+        echo "" | $TELNET_COMM ::1 2>$LTPTMP/tst_xinetd.out.ipv6 1>/dev/null
         diff -iwB $LTPTMP/tst_xinetd.out.ipv6  $LTPTMP/tst_xinetd.exp.1.ipv6 \
             > $LTPTMP/tst_xinetd.err.ipv6 2>&1
         RC=$?
@@ -328,8 +327,7 @@ test01()
         fi
     fi
 
-    tst_retry "echo "" | $TELNET_COMM 127.0.0.1 2>$LTPTMP/tst_xinetd.out \
-        1>/dev/null"
+    echo "" | $TELNET_COMM 127.0.0.1 2>$LTPTMP/tst_xinetd.out 1>/dev/null
     diff -iwB $LTPTMP/tst_xinetd.out  $LTPTMP/tst_xinetd.exp.1 \
         > $LTPTMP/tst_xinetd.err 2>&1
     RC=$?
@@ -383,7 +381,7 @@ test01()
     # not terminated by the test gracefully.
     if [ $IPV6_ENABLED -eq 1 ]
     then
-        tst_retry "echo '' | $TELNET_COMM ::1 2>$LTPTMP/tst_xinetd.out.ipv6 2>&1"
+        echo "" | $TELNET_COMM ::1 >$LTPTMP/tst_xinetd.out.ipv6 2>&1
         diff -iwB $LTPTMP/tst_xinetd.out.ipv6  $LTPTMP/tst_xinetd.exp.2.ipv6 \
             > $LTPTMP/tst_xinetd.err.ipv6 2>&1
         RC=$?
@@ -398,7 +396,7 @@ test01()
         fi
     fi
 
-    test_retry "echo '' | $TELNET_COMM 127.0.0.1 2>$LTPTMP/tst_xinetd.out 2>&1"
+    echo "" | $TELNET_COMM 127.0.0.1 > $LTPTMP/tst_xinetd.out 2>&1
 
     diff -iwB $LTPTMP/tst_xinetd.out  $LTPTMP/tst_xinetd.exp.2 \
         > $LTPTMP/tst_xinetd.err 2>&1
