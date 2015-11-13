@@ -22,7 +22,7 @@ power_management_tests_exclusive
 numa               
 hugetlb            
 commands
-hyperthreading
+#hyperthreading         only test in x86
 kernel_misc
 modules
 fs_ext4
@@ -46,6 +46,6 @@ syscalls-ipc
 #tpm_tools             bug#59 kernel is not support
 #io_cd
 #io_floppy
-#nw_under_ns           need to study
+#nw_under_ns           has been deleted
 crashme
 mm
