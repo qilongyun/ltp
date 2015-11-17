@@ -1,5 +1,7 @@
 #!/bin/sh
 
+	yum install net-tools -y
+	yum install screen  -y 
 #设置 env 环境变量
 
     #获取主机名
@@ -13,7 +15,12 @@
 	needSetENV=0
 	
 	env|grep PASSWD || needSetENV=1
-		
+	
+	tmpStr=`env|grep RHOST_IFACES` 
+	if [ -z  ${tmpStr#*=} ] ; then
+		needSetENV=1;
+	fi;
+	
 	if [ $needSetENV -eq 1 ] ; then 
 	cat >> /root/.bash_profile  <<-EOF
 	
@@ -43,8 +50,16 @@
 	yum install numactl -y
 	yum install numactl-devel -y
 	yum install mkisofs -y
+	yum install psmisc  -y
+	yum install quota   -y
+	yum install tcsh    -y
+
 	
 	#安装网络相关包
+	yum install tcpdump -y
+	yum install bind-utils -y
+	yum install traceroute -y
+	yum install nfs-utils -y
 	yum install xinetd -y
 	yum install rsh -y
 	yum install rsh-server -y
@@ -57,6 +72,7 @@
 	yum install rdist -y
 	yum install rwho -y
 	yum install dhcp -y
+
 	
 	cat > /etc/xinetd.d/rsh  <<-EOF
 	
@@ -174,8 +190,10 @@ $RHOST root
 	systemctl stop rpcbind.target
     systemctl stop rpcbind.socket
     systemctl stop rpcbind.service
-	systemctl restart rpcbind.service
-	systemctl restart nfs-mountd.service
+	systemctl stop rpcbind.service
+	systemctl stop nfs-mountd.service
+	systemctl start rpcbind.service
+	systemctl start nfs-mountd.service
 	
 	systemctl restart rstatd
 	systemctl restart telnet.socket
