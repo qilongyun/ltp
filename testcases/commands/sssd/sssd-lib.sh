@@ -178,7 +178,7 @@ setup
 make_config_file
 sed -i -e "/\[domain\/LOCAL\]/ a\override_gid = error" $CONFIG_FILE
 # make sure config file is OK
-sleep 1
+sleep 3
 restart_daemon sssd
 
 if [ $? -ne 1 ]; then
