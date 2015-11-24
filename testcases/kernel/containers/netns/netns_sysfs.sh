@@ -26,6 +26,7 @@ TCID="netns_sysfs"
 TST_TOTAL=3
 NS_TYPE="net,mnt"
 DUMMYDEV="dummy_test0"
+TESTDEV="dummy_test1"
 . test.sh
 
 setns_check
@@ -38,6 +39,7 @@ cleanup()
 	tst_rmdir
 	ip link del $DUMMYDEV 2>/dev/null
 	kill -9 $NS_HANDLE 2>/dev/null
+    ip link del dummy0 2>/dev/null
 }
 
 tst_tmpdir
@@ -47,6 +49,8 @@ if [ $? -eq 1 ]; then
 	tst_brkm TBROK "unable to create a new network namespace"
 fi
 TST_CLEANUP=cleanup
+ip link add $TESTDEV type dummy
+ip link del $TESTDEV
 ls /sys/class/net >sysfs_before
 
 ns_exec $NS_HANDLE $NS_TYPE mount --make-rprivate /sys
