@@ -38,7 +38,7 @@ ima
 perfcounters
 quickhit
 sctp
-#securebits            bug#70  need to solve
+securebits            
 tracing
 tirpc_tests
 syscalls-ipc

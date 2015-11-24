@@ -36,13 +36,6 @@ cgroup_xattr    cgroup_xattr
 #            BUG
 #===========================================
 
-
-#securebits            
-#bug#70  need to solve
-check_keepcaps01 check_keepcaps 1
-check_keepcaps02 check_keepcaps 2
-check_keepcaps03 check_keepcaps 3
-
 #kernel_misc:
 #bug#52
 rtc01 rtc01        
