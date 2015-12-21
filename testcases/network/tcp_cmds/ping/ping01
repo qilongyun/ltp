@@ -44,10 +44,10 @@ do_setup()
 do_test()
 {
 	tst_resm TINFO "$PING_CMD with $PACKETSIZES ICMP packets"
-	local ipaddr=$(tst_ipaddr rhost)
+	#local ipaddr=$(tst_ipaddr rhost)
 	for packetsize in $PACKETSIZES; do
 		tst_resm TINFO "call $PING_CMD with packet size = $packetsize"
-		$PING_CMD -c $COUNT -s $packetsize $ipaddr > /dev/null 2>&1
+		$PING_CMD -c $COUNT -s $packetsize $HOSTNAME > /dev/null 2>&1
 		if [ $? -ne 0 ]; then
 			tst_resm TFAIL "$PING_CMD -c $COUNT -s $packetsize $ipaddr"
 			return
