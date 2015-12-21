@@ -2,6 +2,7 @@
 
 	yum install net-tools -y
 	yum install screen  -y 
+	yum install radvd   -y
 #设置 env 环境变量
 
     #获取主机名
@@ -173,6 +174,23 @@ $RHOST root
 	EOF
 	
 	
+	cat > /etc/radvd.conf  <<-EOF
+	interface eth0
+{
+        AdvSendAdvert on;
+        MinRtrAdvInterval 30;
+        MaxRtrAdvInterval 100;
+        prefix fd00:1:1:1::/64
+        {
+                AdvOnLink on;
+                AdvAutonomous on;
+                AdvRouterAddr off;
+        };
+
+};
+	EOF
+	
+	
 	sed -i 's/root/#root/g' /etc/vsftpd/ftpusers
 	sed -i 's/root/#root/g' /etc/vsftpd/user_list
 		
@@ -199,7 +217,7 @@ $RHOST root
 	systemctl restart telnet.socket
 	systemctl restart xinetd.service
 	systemctl restart vsftpd.service
-	
+	systemctl restart radvd
 	
     
 	
