@@ -133,7 +133,7 @@ static void *fn_wr(void *arg)
 	pthread_exit(0);
 	return NULL;
 }
-
+pthread_rwlockattr_t attr;
 int main(void)
 {
 #ifndef _POSIX_THREAD_PRIORITY_SCHEDULING
@@ -148,8 +148,10 @@ int main(void)
 	/* main thread needs to have the highest priority */
 	priority = sched_get_priority_min(TRD_POLICY) + 2;
 	set_priority(pthread_self(), TRD_POLICY, priority);
-
-	if (pthread_rwlock_init(&rwlock, NULL) != 0) {
+	
+	pthread_rwlockattr_init(&attr);
+	pthread_rwlockattr_setkind_np(&attr, PTHREAD_RWLOCK_PREFER_WRITER_NONRECURSIVE_NP);	
+	if (pthread_rwlock_init(&rwlock, &attr) != 0) {
 		printf("main: Error at pthread_rwlock_init()\n");
 		return PTS_UNRESOLVED;
 	}
