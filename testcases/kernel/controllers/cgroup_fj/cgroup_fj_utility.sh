@@ -74,7 +74,7 @@ get_subsystem()
 	"all" )
 		;;
 	"none" )
-		subsystem=""
+		subsystem="none"
 		;;
 	"debug,debug" )
 		exist_subsystem "debug";
@@ -134,7 +134,7 @@ get_release_agent_para()
 		release_agent_para_str="";
 		;;
 	"2" )
-		release_agent_para_str=" ";
+		release_agent_para_str="\" \"";
 		;;
 	"3" )
 		release_agent_para_str="/root/cgroup_fj_release_agent";
@@ -370,7 +370,12 @@ do_mount()
 		fi
 	fi
 
-	mount -t cgroup $para_o $something $target
+	#mount -t cgroup $para_o $something $target
+	if [ "$para_o" != "" ]; then
+		mount -t cgroup "$para_o" $something $target
+    else
+		mount -t cgroup $something $target
+fi
 	do_exit $exit_here $expected $?;
 }
 
@@ -560,7 +565,7 @@ mount_cgroup ()
 	if [ "$subsystem" == "abc" ]; then
 		expected=0
 	fi
-	if [ "$subsystem" != "" ]; then
+	if [ "$subsystem" != "" ] && [ "$subsystem" != "none" ]; then
 		PARAMETER_O="$subsystem"
 	fi
 	if [ "$noprefix_use_str" != "" ]; then

@@ -344,6 +344,7 @@ test_6()
 #---------------------------------------------------------------------------
 test_7_1()
 {
+	sleep 10
 	mount -t cgroup -o $subsys xxx cgroup/
 	if [ $? -ne 0 ]; then
 		tst_resm TFAIL "failed to mount $subsys"

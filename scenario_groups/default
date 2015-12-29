@@ -11,7 +11,6 @@ nptl
 pty
 containers
 fs_bind
-#controllers          need to study 
 filecaps
 cap_bounds
 fcntl-locktests
@@ -47,5 +46,7 @@ syscalls-ipc
 #io_cd
 #io_floppy
 #nw_under_ns           has been deleted
+controllers
 crashme
 mm
+          

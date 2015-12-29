@@ -116,6 +116,8 @@ void checkopt(int argc, char **argv)
 	long nr_cpus = 0;
 	long opt_value = 0;
 
+	if (argc == 1)
+    return;
 	nr_cpus = sysconf(_SC_NPROCESSORS_ONLN);
 	if (nr_cpus <= 0) {
 		fprintf(stderr, "Error: sysconf failed\n");

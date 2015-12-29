@@ -1,4 +1,5 @@
 #DESCRIPTION:Resource Management testing
+umount_cgroup   sh umount_cgroup.sh
 cgroup		cgroup_regression_test.sh
 memcg_regression	memcg_regression_test.sh
 memcg_function		memcg_function_test.sh
@@ -8,7 +9,7 @@ memcg_memsw_limit_in_bytes	memcg_memsw_limit_in_bytes_test.sh
 memcg_stat	memcg_stat_test.sh
 memcg_use_hierarchy	memcg_use_hierarchy_test.sh
 memcg_usage_in_bytes	memcg_usage_in_bytes_test.sh
-memcg_stress		memcg_stress_test.sh
+#memcg_stress		memcg_stress_test.sh     ##test time too long             
 memcg_control		PAGESIZE=$(mem_process -p);memcg_control_test.sh $PAGESIZE $PAGESIZE $((PAGESIZE * 2))
 
 cgroup_fj_function_debug_yes_yes_1_yes_2_3_2_1 run_cgroup_test_fj.sh function debug yes yes 1 yes 2 3 2 1
@@ -20,6 +21,7 @@ cgroup_fj_function_debug_yes_yes_5_yes_2_3_2_1 run_cgroup_test_fj.sh function de
 cgroup_fj_function_debug_yes_yes_6_yes_2_3_2_1 run_cgroup_test_fj.sh function debug yes yes 6 yes 2 3 2 1
 cgroup_fj_function_debug_yes_yes_7_yes_2_3_2_1 run_cgroup_test_fj.sh function debug yes yes 7 yes 2 3 2 1
 cgroup_fj_function_debug_yes_yes_8_yes_2_3_2_1 run_cgroup_test_fj.sh function debug yes yes 8 yes 2 3 2 1
+
 cgroup_fj_function_cpuset_yes_yes_1_yes_2_3_2_1 run_cgroup_test_fj.sh function cpuset yes yes 1 yes 2 3 2 1
 cgroup_fj_function_cpuset_no_yes_1_yes_2_3_2_1 run_cgroup_test_fj.sh function cpuset no yes 1 yes 2 3 2 1
 cgroup_fj_function_cpuset_yes_no_1_yes_2_3_2_1 run_cgroup_test_fj.sh function cpuset yes no 1 yes 2 3 2 1
@@ -30,6 +32,7 @@ cgroup_fj_function_cpuset_yes_yes_5_yes_2_3_2_1 run_cgroup_test_fj.sh function c
 cgroup_fj_function_cpuset_yes_yes_6_yes_2_3_2_1 run_cgroup_test_fj.sh function cpuset yes yes 6 yes 2 3 2 1
 cgroup_fj_function_cpuset_yes_yes_7_yes_2_3_2_1 run_cgroup_test_fj.sh function cpuset yes yes 7 yes 2 3 2 1
 cgroup_fj_function_cpuset_yes_yes_8_yes_2_3_2_1 run_cgroup_test_fj.sh function cpuset yes yes 8 yes 2 3 2 1
+
 cgroup_fj_function_ns_yes_yes_1_yes_2_3_2_1 run_cgroup_test_fj.sh function ns yes yes 1 yes 2 3 2 1
 cgroup_fj_function_ns_no_yes_1_yes_2_3_2_1 run_cgroup_test_fj.sh function ns no yes 1 yes 2 3 2 1
 cgroup_fj_function_ns_yes_yes_2_yes_2_3_2_1 run_cgroup_test_fj.sh function ns yes yes 2 yes 2 3 2 1
@@ -39,6 +42,7 @@ cgroup_fj_function_ns_yes_yes_5_yes_2_3_2_1 run_cgroup_test_fj.sh function ns ye
 cgroup_fj_function_ns_yes_yes_6_yes_2_3_2_1 run_cgroup_test_fj.sh function ns yes yes 6 yes 2 3 2 1
 cgroup_fj_function_ns_yes_yes_7_yes_2_3_2_1 run_cgroup_test_fj.sh function ns yes yes 7 yes 2 3 2 1
 cgroup_fj_function_ns_yes_yes_8_yes_2_3_2_1 run_cgroup_test_fj.sh function ns yes yes 8 yes 2 3 2 1
+
 cgroup_fj_function_cpu_yes_yes_1_yes_2_3_2_1 run_cgroup_test_fj.sh function cpu yes yes 1 yes 2 3 2 1
 cgroup_fj_function_cpu_no_yes_1_yes_2_3_2_1 run_cgroup_test_fj.sh function cpu no yes 1 yes 2 3 2 1
 cgroup_fj_function_cpu_yes_yes_2_yes_2_3_2_1 run_cgroup_test_fj.sh function cpu yes yes 2 yes 2 3 2 1
@@ -76,6 +80,7 @@ cgroup_fj_function_all_yes_yes_6_yes_2_3_2_1 run_cgroup_test_fj.sh function all 
 cgroup_fj_function_all_yes_yes_7_yes_2_3_2_1 run_cgroup_test_fj.sh function all yes yes 7 yes 2 3 2 1
 cgroup_fj_function_all_yes_yes_8_yes_2_3_2_1 run_cgroup_test_fj.sh function all yes yes 8 yes 2 3 2 1
 cgroup_fj_function_none_yes_yes_1_yes_2_3_2_1 run_cgroup_test_fj.sh function none yes yes 1 yes 2 3 2 1
+
 cgroup_fj_function_debug,debug_yes_yes_1_yes_2_3_2_1 run_cgroup_test_fj.sh function debug,debug yes yes 1 yes 2 3 2 1
 cgroup_fj_function_debug,debug_no_yes_1_yes_2_3_2_1 run_cgroup_test_fj.sh function debug,debug no yes 1 yes 2 3 2 1
 cgroup_fj_function_debug,debug_yes_yes_2_yes_2_3_2_1 run_cgroup_test_fj.sh function debug,debug yes yes 2 yes 2 3 2 1
@@ -145,6 +150,8 @@ cgroup_fj_function_debug_yes_yes_3_yes_2_3_4_2 run_cgroup_test_fj.sh function de
 cgroup_fj_function_debug_yes_yes_3_yes_2_3_5_2 run_cgroup_test_fj.sh function debug yes yes 3 yes 2 3 5 2
 cgroup_fj_function_debug_yes_yes_3_yes_2_3_6_2 run_cgroup_test_fj.sh function debug yes yes 3 yes 2 3 6 2
 cgroup_fj_function_debug_yes_yes_3_yes_2_3_7_2 run_cgroup_test_fj.sh function debug yes yes 3 yes 2 3 7 2
+
+#此组用例挂载cgroup时使用的命令是mount -t cgroup -o1 cgroup /dev/cgroup。手动挂载时也是不成功，对于-o1参数，没有查找到相关资料。
 cgroup_fj_function2_1 run_cgroup_test_fj.sh function2 1
 cgroup_fj_function2_2 run_cgroup_test_fj.sh function2 2
 cgroup_fj_function2_3 run_cgroup_test_fj.sh function2 3
@@ -158,22 +165,26 @@ cgroup_fj_function2_10 run_cgroup_test_fj.sh function2 10
 cgroup_fj_function2_11 run_cgroup_test_fj.sh function2 11
 cgroup_fj_function2_12 run_cgroup_test_fj.sh function2 12
 cgroup_fj_function2_13 run_cgroup_test_fj.sh function2 13
-cgroup_fj_stress_debug_100_1_1_1 run_cgroup_test_fj.sh stress debug 100 1 1 1
+
+#cgroup_fj_stress_debug_100_1_1_1 run_cgroup_test_fj.sh stress debug 100 1 1 1                    #debug is not support
 cgroup_fj_stress_cpuset_100_1_1_1 run_cgroup_test_fj.sh stress cpuset 100 1 1 1
-cgroup_fj_stress_ns_100_1_1_1 run_cgroup_test_fj.sh stress ns 100 1 1 1
+#cgroup_fj_stress_ns_100_1_1_1 run_cgroup_test_fj.sh stress ns 100 1 1 1                          #ns is not support
 cgroup_fj_stress_cpu_100_1_1_1 run_cgroup_test_fj.sh stress cpu 100 1 1 1
 cgroup_fj_stress_cpuacct_100_1_1_1 run_cgroup_test_fj.sh stress cpuacct 100 1 1 1
 cgroup_fj_stress_memory_100_1_1_1 run_cgroup_test_fj.sh stress memory 100 1 1 1
 cgroup_fj_stress_all_100_1_1_1 run_cgroup_test_fj.sh stress all 100 1 1 1
-cgroup_fj_stress_debug_1_1_1_2 run_cgroup_test_fj.sh stress debug 1 1 1 2
-cgroup_fj_stress_debug_1_1_100_1 run_cgroup_test_fj.sh stress debug 1 1 100 1
-cgroup_fj_stress_debug_1_1_100_2 run_cgroup_test_fj.sh stress debug 1 1 100 2
-cgroup_fj_stress_debug_1_1_100_3 run_cgroup_test_fj.sh stress debug 1 1 100 3
-cgroup_fj_stress_debug_1_100_1_1 run_cgroup_test_fj.sh stress debug 1 100 1 1
-cgroup_fj_stress_debug_1_100_1_2 run_cgroup_test_fj.sh stress debug 1 100 1 2
-cgroup_fj_stress_debug_1_100_1_3 run_cgroup_test_fj.sh stress debug 1 100 1 3
-cgroup_fj_stress_debug_1_100_100_1 run_cgroup_test_fj.sh stress debug 1 100 100 1
-cgroup_fj_stress_debug_1_100_100_2 run_cgroup_test_fj.sh stress debug 1 100 100 2
+
+#debug is not support
+#cgroup_fj_stress_debug_1_1_1_2 run_cgroup_test_fj.sh stress debug 1 1 1 2
+#cgroup_fj_stress_debug_1_1_100_1 run_cgroup_test_fj.sh stress debug 1 1 100 1
+#cgroup_fj_stress_debug_1_1_100_2 run_cgroup_test_fj.sh stress debug 1 1 100 2
+#cgroup_fj_stress_debug_1_1_100_3 run_cgroup_test_fj.sh stress debug 1 1 100 3
+#cgroup_fj_stress_debug_1_100_1_1 run_cgroup_test_fj.sh stress debug 1 100 1 1
+#cgroup_fj_stress_debug_1_100_1_2 run_cgroup_test_fj.sh stress debug 1 100 1 2
+#cgroup_fj_stress_debug_1_100_1_3 run_cgroup_test_fj.sh stress debug 1 100 1 3
+#cgroup_fj_stress_debug_1_100_100_1 run_cgroup_test_fj.sh stress debug 1 100 100 1
+#cgroup_fj_stress_debug_1_100_100_2 run_cgroup_test_fj.sh stress debug 1 100 100 2
+
 cgroup_fj_stress_cpuset_1_1_1_2 run_cgroup_test_fj.sh stress cpuset 1 1 1 2
 cgroup_fj_stress_cpuset_1_1_100_1 run_cgroup_test_fj.sh stress cpuset 1 1 100 1
 cgroup_fj_stress_cpuset_1_1_100_2 run_cgroup_test_fj.sh stress cpuset 1 1 100 2
@@ -203,8 +214,10 @@ cgroup_fj_stress_memory_1_1_100_3 run_cgroup_test_fj.sh stress memory 1 1 100 3
 cgroup_fj_stress_memory_1_100_1_1 run_cgroup_test_fj.sh stress memory 1 100 1 1
 cgroup_fj_stress_memory_1_100_1_2 run_cgroup_test_fj.sh stress memory 1 100 1 2
 cgroup_fj_stress_memory_1_100_1_3 run_cgroup_test_fj.sh stress memory 1 100 1 3
-cgroup_fj_stress_memory_1_100_100_1 run_cgroup_test_fj.sh stress memory 1 100 100 1
-cgroup_fj_stress_memory_1_100_100_2 run_cgroup_test_fj.sh stress memory 1 100 100 2
+
+# system is hangup
+#cgroup_fj_stress_memory_1_100_100_1 run_cgroup_test_fj.sh stress memory 1 100 100 1
+#cgroup_fj_stress_memory_1_100_100_2 run_cgroup_test_fj.sh stress memory 1 100 100 2
 
 controllers	test_controllers.sh
 
@@ -213,13 +226,17 @@ cpuset_inherit	cpuset_inherit_testset.sh
 cpuset_exclusive	cpuset_exclusive_test.sh
 cpuset_hierarchy	cpuset_hierarchy_test.sh
 cpuset_syscall	cpuset_syscall_testset.sh
-cpuset_sched_domains	cpuset_sched_domains_test.sh
+#cpuset_sched_domains	cpuset_sched_domains_test.sh         #源码中解析/proc/schedstat文件中的调度域数据时出错,依赖于内核配置中的kernel_hacking->Collect scheduler statistics
 cpuset_load_balance	cpuset_load_balance_test.sh
 cpuset_hotplug	cpuset_hotplug_test.sh
-cpuset_memory	cpuset_memory_testset.sh
+#cpuset_memory	cpuset_memory_testset.sh                    # bug 252 /proc/meminfo 中没有Hugepages，测试时发现虚拟机配为numa架构同时又开启hugepage支持时，虚拟机中不确定是否开启了hugepage,/proc/meminfo中没有Hugepages，
+                                                            # 同时写入/proc/sys/vm/nr_hugepages会失败。最好在裸机上进行测试此项。
 cpuset_memory_pressure	cpuset_memory_pressure_testset.sh
 cpuset_memory_spread	cpuset_memory_spread_testset.sh
 
 cpuset_regression_test cpuset_regression_test.sh
 
 cgroup_xattr	cgroup_xattr
+
+mount_cgroup   sh mount_cgroup.sh
+
