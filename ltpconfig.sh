@@ -190,6 +190,22 @@ $RHOST root
 };
 	EOF
 	
+	cat > /etc/sssd/sssd.conf  <<-EOF
+[sssd]
+config_file_version = 2
+services = nss, pam
+domains = LOCAL
+
+[nss]
+allowed_shells = /bin/tcsh
+
+[pam]
+
+[domain/LOCAL]
+id_provider = local
+	EOF
+	
+	
 	
 	sed -i 's/root/#root/g' /etc/vsftpd/ftpusers
 	sed -i 's/root/#root/g' /etc/vsftpd/user_list
@@ -218,6 +234,7 @@ $RHOST root
 	systemctl restart xinetd.service
 	systemctl restart vsftpd.service
 	systemctl restart radvd
+	systemctl restart sssd
 	
     
 	
