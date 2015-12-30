@@ -533,6 +533,9 @@ reclaim_foundling()
 	foundlings=0
 	cat `find /dev/cgroup/subgroup_* -name "tasks"` > $TMPFILE
 	nlines=`cat "$TMPFILE" | wc -l`
+	if [ $nlines -eq 0 ];then
+		return
+    fi
 	for k in `seq 1 $nlines`
 	do
 		cur_pid=`sed -n "$k""p" $TMPFILE`
